@@ -1,0 +1,753 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BMC Partnership Agreement</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#99181c">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link rel="apple-touch-icon" href="assets/img/icon-180.png">
+<link rel="preload" href="assets/fonts/public-sans-400.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:"Public Sans";font-style:normal;font-weight:400;font-display:swap;src:url("assets/fonts/public-sans-400.woff2") format("woff2")}
+@font-face{font-family:"Public Sans";font-style:normal;font-weight:500;font-display:swap;src:url("assets/fonts/public-sans-500.woff2") format("woff2")}
+@font-face{font-family:"Public Sans";font-style:normal;font-weight:600;font-display:swap;src:url("assets/fonts/public-sans-600.woff2") format("woff2")}
+@font-face{font-family:"Public Sans";font-style:normal;font-weight:700;font-display:swap;src:url("assets/fonts/public-sans-700.woff2") format("woff2")}
+@font-face{font-family:"Public Sans";font-style:normal;font-weight:800;font-display:swap;src:url("assets/fonts/public-sans-800.woff2") format("woff2")}
+:root{
+  --navy:#99181c; --navy-deep:#6e1014; --maroon:#99181c; --yellow:#ffcc00; --yellow-soft:#fbf0f0;
+  --ground:#f6f3f2; --panel:#ffffff; --ink:#241c1c; --muted:#655b5a; --line:#e4dcdb; --line-strong:#c8bebd;
+  --ok:#1f7a4d; --warn:#a15c00; --focus:#99181c;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--ground);color:var(--ink);font:15px/1.5 "Public Sans",system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}
+.wrap{max-width:960px;margin:0 auto;padding-inline:16px}
+
+/* ---------- header ---------- */
+.top{background:var(--panel);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:14px;padding-block:14px}
+.top img{width:52px;height:52px;object-fit:contain}
+.top .eyebrow{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--maroon)}
+.top h1{margin:0;font-size:22px;line-height:1.15;font-weight:800;color:var(--navy-deep)}
+.top .save{margin-left:auto;font-size:12.5px;color:var(--muted);text-align:right}
+.top .save b{color:var(--ok);font-weight:600}
+
+/* ---------- stepper ---------- */
+.steps{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--navy);box-shadow:0 1px 0 rgba(0,0,0,.08)}
+.steps ol{list-style:none;margin:0 auto;padding:0 16px;max-width:960px;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.steps ol::-webkit-scrollbar{display:none}
+.steps button{all:unset;cursor:pointer;display:flex;align-items:center;gap:7px;padding:12px 9px 11px;color:#f3d3d4;font-size:13.5px;font-weight:600;white-space:nowrap;border-bottom:3px solid transparent}
+.steps button .n{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.14);font-size:12px;font-variant-numeric:tabular-nums}
+.steps button[aria-current="step"]{color:#fff;border-bottom-color:#fff}
+.steps button[aria-current="step"] .n{background:#fff;color:var(--navy)}
+.steps button.done .n{background:#fff;color:var(--navy)}
+.steps button:focus-visible{outline:2px solid #fff;outline-offset:-2px}
+
+/* ---------- step body ---------- */
+main{padding-block:26px 120px}
+.intro{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:20px;color:var(--muted);font-size:14px}
+.intro strong{color:var(--ink)}
+.step[hidden]{display:none}
+.step-head{margin:0 0 18px}
+.step-head .tag{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--maroon)}
+.step-head h2{margin:2px 0 4px;font-size:26px;line-height:1.2;color:var(--navy-deep);text-wrap:balance}
+.step-head p{margin:0;color:var(--muted);max-width:65ch}
+fieldset{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:18px;margin:0 0 16px;min-width:0}
+legend{padding:0 6px;margin-left:-6px;font-weight:700;color:var(--navy-deep);font-size:15.5px}
+.hint{color:var(--muted);font-size:13.5px;margin:-2px 0 12px;max-width:70ch}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 16px}
+.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.full{grid-column:1/-1}
+.f{display:flex;flex-direction:column;gap:5px;min-width:0}
+.f>label,.f>.lbl{font-size:13.5px;font-weight:600;color:var(--ink)}
+.req{color:var(--maroon);font-weight:700;margin-left:3px}
+input[type=text],input[type=email],input[type=tel],input[type=date],input[type=url],input[type=number],select,textarea{
+  width:100%;border:1px solid var(--line-strong);border-radius:7px;background:#fff;padding:9px 11px;min-height:42px;transition:border-color .15s,box-shadow .15s}
+textarea{min-height:96px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--focus);box-shadow:0 0 0 3px rgba(153,24,28,.18)}
+.fixed{background:var(--ground);border:1px dashed var(--line-strong);border-radius:7px;padding:9px 11px;color:var(--muted);font-size:14px}
+
+/* chips & segmented */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0;inset:0;cursor:pointer;margin:0}
+.chip span{display:flex;align-items:center;gap:8px;padding:8px 13px 8px 10px;border:1px solid var(--line-strong);border-radius:999px;background:#fff;font-size:14px;cursor:pointer;user-select:none}
+.chip span::before{content:"";width:16px;height:16px;border:1.5px solid var(--line-strong);border-radius:4px;flex:none;background:#fff center/11px no-repeat}
+.chip input:checked+span{border-color:var(--navy);background:#f9ebeb;color:var(--navy-deep);font-weight:600}
+.chip input:checked+span::before{background-color:var(--navy);border-color:var(--navy);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6.5l2.5 2.5L10 3.5' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E")}
+.chip input:focus-visible+span{outline:2px solid var(--focus);outline-offset:2px}
+.seg{display:inline-flex;border:1px solid var(--line-strong);border-radius:8px;overflow:hidden;background:#fff;align-self:flex-start}
+.seg label{position:relative;cursor:pointer}
+.seg input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.seg span{display:block;padding:8px 16px;font-size:14px;font-weight:500;border-left:1px solid var(--line)}
+.seg label:first-child span{border-left:0}
+.seg input:checked+span{background:var(--navy);color:#fff;font-weight:600}
+.seg input:focus-visible+span{outline:2px solid var(--focus);outline-offset:-3px}
+.tick{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:#fcfafa;cursor:pointer}
+.tick input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--navy);flex:none}
+.tick span{font-size:14px}
+
+/* region table */
+.regions{display:grid;gap:8px}
+.region{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--line);border-radius:8px}
+.region .chip{justify-self:start}
+.region .chip span{white-space:nowrap}
+.region .only{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted)}
+.region .only[aria-disabled="true"]{opacity:.4;pointer-events:none}
+.notice{border-left:4px solid var(--maroon);background:var(--yellow-soft);padding:10px 12px;border-radius:0 8px 8px 0;font-size:13.5px;margin-top:12px}
+
+.linkbtn{all:unset;cursor:pointer;color:var(--navy);font-weight:600;font-size:13px;text-decoration:underline;text-underline-offset:3px}
+.linkbtn:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.legend-row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.legend-row h3{margin:0;font-size:15.5px;color:var(--navy-deep)}
+
+/* KPI rows */
+.kpi{border:1px solid var(--line);border-radius:8px;padding:12px;display:grid;gap:10px;grid-template-columns:repeat(2,minmax(0,1fr));position:relative;margin-bottom:10px;background:#fcfafa}
+.kpi .rm{position:absolute;top:8px;right:10px}
+
+/* signature */
+.sigbox{border:1px solid var(--line-strong);border-radius:8px;background:#fff;position:relative;touch-action:none}
+.sigbox canvas{display:block;width:100%;height:150px;cursor:crosshair}
+.sigbox .base{position:absolute;left:18px;right:18px;bottom:34px;border-bottom:1px dashed var(--line-strong);pointer-events:none}
+.sigbox .ph{position:absolute;left:18px;bottom:10px;font-size:12px;color:var(--muted);pointer-events:none}
+
+/* review */
+.missing{border:1px solid #f0c889;background:#fff8ec;border-radius:10px;padding:14px 16px;margin-bottom:16px}
+.missing h3{margin:0 0 6px;font-size:15px;color:var(--warn)}
+.missing ul{margin:0;padding-left:18px}
+.missing li{margin:2px 0}
+.allgood{border:1px solid #b9dcc8;background:#eef8f2;border-radius:10px;padding:12px 16px;margin-bottom:16px;color:var(--ok);font-weight:600}
+.preview-frame{background:#9b9291;border-radius:10px;padding:14px;overflow:hidden}
+.preview-scale{transform-origin:top left}
+.sheet{background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.25);margin-bottom:14px;padding:8mm;width:210mm}
+.printcta{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:16px 0}
+.howto{font-size:13.5px;color:var(--muted);max-width:70ch}
+
+/* bottom nav */
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--panel);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+.nav .wrap{display:flex;align-items:center;gap:10px;padding-block:12px}
+.nav .pos{font-size:13px;color:var(--muted);margin-right:auto}
+.btn{appearance:none;border:1px solid var(--line-strong);background:#fff;border-radius:8px;padding:10px 18px;font-weight:600;cursor:pointer;min-height:44px}
+.btn.primary{background:var(--navy);border-color:var(--navy);color:#fff}
+.btn.primary:hover{background:var(--navy-deep)}
+.btn.print{background:var(--navy);border-color:var(--navy);color:#fff}
+.btn.print:hover{background:var(--navy-deep)}
+.btn:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.btn[disabled]{opacity:.45;cursor:default}
+.confirm{display:inline-flex;gap:8px;align-items:center;font-size:13px}
+.sendbox{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin:18px 0 6px;padding:16px;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+.btn.big{font-size:16px;padding:12px 26px;min-height:50px}
+.sent{border:1px solid #b9dcc8;background:#eef8f2;border-radius:10px;padding:16px 18px;margin:18px 0 6px}
+.sent h3{margin:0 0 4px;color:var(--ok);font-size:17px}
+.sent p{margin:0;color:var(--ink)}
+.senderr{border:1px solid #efc2c2;background:#fdf1f1;border-radius:10px;padding:14px 16px;margin-top:10px;color:#7a1414;font-size:14px;width:100%}
+input[type=file]{min-height:auto;padding:8px;background:#fff;border:1px dashed var(--line-strong);border-radius:7px;width:100%}
+
+@media (max-width:640px){
+  .grid,.grid.three,.kpi{grid-template-columns:minmax(0,1fr)}
+  .top h1{font-size:19px}
+  .top .save{display:none}
+  .step-head h2{font-size:22px}
+  fieldset{padding:14px}
+  .region{grid-template-columns:minmax(0,1fr)}
+  .region .only{padding-left:4px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* ---------- website imagery ---------- */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:0;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:22px}
+.hero .txt{padding:20px 22px;color:var(--muted);font-size:14.5px}
+.hero .txt strong{display:block;color:var(--navy-deep);font-size:18px;margin-bottom:6px;line-height:1.3}
+.hero img{width:100%;height:100%;object-fit:cover;display:block;min-height:180px;background:var(--ground)}
+.hero img.cut{object-fit:contain;padding:14px;background:linear-gradient(160deg,#f8f2f1,#ede3e2)}
+.step-head .pic.cut{background:linear-gradient(160deg,#f8f2f1,#ede3e2)}
+.step-head .pic.cut img{object-fit:contain;padding:8px}
+.step-head.has-img{display:grid;grid-template-columns:minmax(0,1fr) 150px;gap:22px;align-items:start}
+.step-head .pic{width:150px;aspect-ratio:3/4;max-width:100%;border-radius:10px;overflow:hidden;background:var(--ground);box-shadow:0 1px 0 var(--line)}
+.step-head .pic img{width:100%;height:100%;object-fit:cover;display:block}
+.badges{display:flex;flex-wrap:wrap;gap:18px 26px;align-items:center;justify-content:center;padding:22px 0 6px;border-top:1px solid var(--line);margin-top:28px}
+.badges img{height:64px;width:64px;object-fit:contain;border-radius:6px}
+@media (max-width:640px){
+  .hero{grid-template-columns:minmax(0,1fr)}
+  .hero img{height:170px;min-height:0;order:-1}
+  .step-head.has-img{grid-template-columns:minmax(0,1fr)}
+  .step-head .pic{width:100%;aspect-ratio:auto;height:150px;order:-1}
+  .badges img{height:48px;width:48px}
+}
+
+/* =====================================================================
+   PRINTED FORM — mirrors "Partnership Agreement" v8 (03.09.25)
+   ===================================================================== */
+.pf{width:194mm;font:6.9pt/1.15 Arial,Helvetica,sans-serif;color:#000;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.pf *{box-sizing:border-box}
+.pf table{width:100%;border-collapse:collapse;table-layout:fixed}
+.pf td,.pf th{border:.6pt solid #000;padding:.15mm .9mm;vertical-align:middle;text-align:left;font-weight:normal;height:3.35mm;overflow:hidden;word-wrap:break-word}
+.pf .v{font-family:Arial,Helvetica,sans-serif;color:#000}
+.pf .c{text-align:center}
+.pf .b{font-weight:bold}
+.pf .y{background:#ffcc00;font-weight:bold}
+.pf .g{background:#eeeeee}
+.pf .hd{background:#99181c;color:#fff;font-weight:bold;text-align:center;font-size:7.8pt}
+.pf .nob td{border:none}
+.pf .row{display:flex;gap:4mm;align-items:flex-start}
+.pf .col{flex:1;min-width:0}
+.pf .band{background:#c0c0c0;height:4.5mm}
+.pf .bar{background:#99181c;color:#fff;font-weight:bold;font-size:15pt;text-align:center;padding:1mm 0;border:.8pt solid #000}
+.pf .box{border-left:.8pt solid #000;border-right:.8pt solid #000;border-bottom:.8pt solid #000;padding:1.6mm 0 1.8mm}
+.pf .box.open{border-bottom:none}
+.pf .box.top{border-top:.8pt solid #000}
+.pf .gap{height:1.8mm}
+.pf .ck{display:inline-block;width:2.6mm;height:2.6mm;border:.6pt solid #000;vertical-align:middle;text-align:center;line-height:2.4mm;font-size:6.6pt;font-weight:bold;background:#fff;color:#000}
+.pf .multi{white-space:pre-wrap;vertical-align:top}
+.pf .head{display:flex;align-items:center;gap:2mm}
+.pf .head img{width:15mm;height:15mm}
+.pf .head .t{flex:1;background:#eeeeee;text-align:center;padding:1.6mm 0}
+.pf .head .t1{color:#993300;font-weight:bold;font-size:15.5pt;line-height:1.2}
+.pf .head .t2{color:#808080;font-weight:bold;font-size:14pt;line-height:1.25}
+.pf .lead{text-align:center;font-size:6.5pt;line-height:1.18;margin:.6mm 2mm 1mm}
+.pf .lead u{text-decoration:underline}
+.pf .note{border:.6pt solid #000;text-align:center;font-weight:bold;padding:.4mm 1mm;margin:0 16mm 2mm}
+.pf .sigbar{background:#99181c;color:#fff;text-align:center;padding:1.3mm 2mm;font-size:7pt;border-top:.8pt solid #000;border-bottom:.8pt solid #000}
+.pf .sig td{border:none;height:7mm;vertical-align:bottom}
+.pf .sig .ln{border-bottom:.6pt solid #000;position:relative}
+.pf .sig .ln img{position:absolute;left:1mm;bottom:.3mm;height:9mm;max-width:95%}
+.pf .small{font-size:6.3pt}
+.pf .red{color:#ff0000;font-weight:bold}
+.pf a{color:#99181c}
+.pf .pb{break-before:page;page-break-before:always}
+.pf .ver{text-align:right;font-size:6.3pt;padding-right:1mm}
+.pf .kpi-t td{height:10mm;vertical-align:top}
+.pf .kpi-t .hd{height:5mm;vertical-align:middle}
+
+#printRoot{display:none}
+@page{size:A4 portrait;margin:8mm}
+@media print{
+  body{background:#fff}
+  body>*:not(#printRoot){display:none!important}
+  #printRoot{display:block}
+  #printRoot .sheet{box-shadow:none;margin:0;padding:0;width:auto}
+  #printRoot .sheet+.sheet{break-before:page;page-break-before:always}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <img src="assets/img/bmc-logo.png" alt="The Building Maintenance Company logo" width="52" height="52">
+    <div>
+      <div class="eyebrow">The Building Maintenance Company</div>
+      <h1>Partnership Agreement</h1>
+    </div>
+    <div class="save" id="saveState" aria-live="polite">Your answers are saved on this device as you type</div>
+  </div>
+</header>
+
+<nav class="steps" aria-label="Form sections"><ol id="stepList"></ol></nav>
+
+<main class="wrap">
+  <div class="hero" id="introBox">
+    <div class="txt">
+      <strong>Thank you for agreeing to enter into a partnership with us.</strong>
+      This agreement makes sure we've fully understood your needs and expectations. Fill in each section; you can move between them freely and come back later on this device. On the last step you check the finished agreement, sign it and press Send – it comes straight to us.
+    </div>
+    <img class="cut" src="assets/img/vans.webp" alt="The Building Maintenance Company vans" width="600" height="378">
+  </div>
+  <form id="app" autocomplete="on" novalidate></form>
+  <div class="badges" aria-label="Accreditations">
+    <img src="assets/img/badge-1.jpg" alt="Constructionline Gold Member" width="164" height="164" loading="lazy">
+    <img src="assets/img/badge-2.jpg" alt="Social Value" width="164" height="164" loading="lazy">
+    <img src="assets/img/badge-3.jpg" alt="SSIP" width="164" height="164" loading="lazy">
+    <img src="assets/img/badge-4.jpg" alt="Acclaim Accreditation" width="164" height="164" loading="lazy">
+    <img src="assets/img/badge-5.jpg" alt="SafeContractor Approved" width="164" height="164" loading="lazy">
+    <img src="assets/img/badge-6.jpg" alt="Constructionline Silver Member" width="164" height="164" loading="lazy">
+  </div>
+</main>
+
+<div class="nav">
+  <div class="wrap">
+    <span class="pos" id="pos"></span>
+    <button type="button" class="btn" id="prevBtn">Back</button>
+    <button type="button" class="btn primary" id="nextBtn">Next</button>
+  </div>
+</div>
+
+<div id="printRoot"></div>
+
+
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/jszip.min.js"></script>
+<script src="assets/js/template-data.js"></script>
+<script src="assets/js/cell-map.js"></script>
+<script src="assets/js/excel-export.js"></script>
+<script>
+(function(){
+"use strict";
+var LOGO="assets/img/form-logo.jpg";
+var STORE="bmc-partnership-agreement-v8";
+
+/* ---------------- reference lists (from the spreadsheet) ---------------- */
+var TYPES=["Limited","Public Limited","Sole Trader","Charity","Partnership","Other"];
+var REGIONS=[["ne","North East"],["nw","North West"],["yo","Yorkshire"],["sc","Scotland"],["mi","Midlands"]];
+var STD=["Joinery","Plumbing","Electrical","Flooring","Decorating","Tiling","Roofing","Bricklaying / Masonry","Gardening (Tidying etc.) ","Small glazing work","Plastering"];
+var SPEC=["Roller shutters","Large glazing work","Drainage","Fire alarms"];
+var COMMS=["Contact site to agree access time","Contact Helpdesk to agree access time","Contact other to agree access time (Specify)","Completed job card submitted with invoice","Before & after photographs","E-mail upon completion to helpdesk","E-mail upon completion to main contact"];
+var SOURCES=[["srcEmail","E-mail"],["srcTel","Telephone"],["srcIT","Bespoke IT software"]];
+var STAFF=["Ali","Ben","Charlotte ","Dawn","Helen","Jan","Jordan","Kieran","Lucy","Migle","Rebecca","Sam","Sarah","Suzanne","Will"];
+var CONTACT_ROLES=["Main contact","Invoice contact","Accounts Payable contact","Helpdesk main contact"];
+
+/* ---------------- state ---------------- */
+var S={kpis:[{},{},{}]};
+try{var raw=localStorage.getItem(STORE);if(raw){S=JSON.parse(raw)||S;}}catch(e){}
+if(!Array.isArray(S.kpis))S.kpis=[{}];
+// Prefill from link, e.g. ?company=Your%20Client%20Ltd&ratesUntil=2027-09-30
+try{var qs=new URLSearchParams(location.search);qs.forEach(function(val,key){if(key && !(key in S && S[key])) S[key]=val;});}catch(e){}
+if(!S.sigDate){var d=new Date();S.sigDate=d.toISOString().slice(0,10);}
+
+var saveT;
+function save(){
+  clearTimeout(saveT);
+  saveT=setTimeout(function(){
+    try{localStorage.setItem(STORE,JSON.stringify(S));
+      document.getElementById("saveState").innerHTML="<b>Saved</b> on this device · "+new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});
+    }catch(e){document.getElementById("saveState").textContent="Autosave is unavailable in this browser — keep this page open until you’ve printed";}
+  },250);
+}
+
+/* ---------------- field builders ---------------- */
+function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function R(req){return req?'<span class="req" aria-hidden="true">*</span>':"";}
+function T(k,label,o){o=o||{};var type=o.type||"text";
+  return '<div class="f'+(o.full?" full":"")+'"><label for="f_'+k+'">'+label+R(o.req)+'</label>'+
+    '<input id="f_'+k+'" type="'+type+'" data-k="'+k+'"'+(o.ac?' autocomplete="'+o.ac+'"':"")+(o.ph?' placeholder="'+esc(o.ph)+'"':"")+(o.list?' list="'+o.list+'"':"")+(o.req?' aria-required="true"':"")+'></div>';}
+function A(k,label,o){o=o||{};return '<div class="f full"><label for="f_'+k+'">'+label+R(o.req)+'</label>'+(o.hint?'<div class="hint">'+o.hint+'</div>':"")+'<textarea id="f_'+k+'" data-k="'+k+'" rows="'+(o.rows||4)+'"'+(o.ph?' placeholder="'+esc(o.ph)+'"':"")+'></textarea></div>';}
+function SEL(k,label,opts,o){o=o||{};return '<div class="f'+(o.full?" full":"")+'"><label for="f_'+k+'">'+label+R(o.req)+'</label><select id="f_'+k+'" data-k="'+k+'"><option value="">Select…</option>'+opts.map(function(x){return '<option>'+esc(x)+'</option>';}).join("")+'</select></div>';}
+function YN(k,label,o){o=o||{};var opts=o.opts||["Yes","No"];return '<div class="f'+(o.full?" full":"")+'"><span class="lbl" id="l_'+k+'">'+label+R(o.req)+'</span><div class="seg" role="radiogroup" aria-labelledby="l_'+k+'">'+
+  opts.map(function(x,i){return '<label><input type="radio" name="'+k+'" id="f_'+k+'_'+i+'" data-k="'+k+'" value="'+x+'"><span>'+x+'</span></label>';}).join("")+'</div></div>';}
+function CH(k,label){return '<label class="chip"><input type="checkbox" id="f_'+k+'" data-k="'+k+'"><span>'+label+'</span></label>';}
+function TICK(k,label){return '<label class="tick"><input type="checkbox" id="f_'+k+'" data-k="'+k+'"><span>'+label+'</span></label>';}
+function contactBlock(p,title,o){o=o||{};
+  return '<fieldset><div class="legend-row"><h3>'+title+'</h3>'+(o.copy?'<span style="display:flex;gap:14px;flex-wrap:wrap">'+o.copy+'</span>':"")+'</div>'+(o.hint?'<div class="hint">'+o.hint+'</div>':"")+
+  '<div class="grid">'+T(p+"Name","Name",{ac:"off",req:o.req})+T(p+"Title","Job title")+T(p+"Email","E-mail address",{type:"email",req:o.req})+T(p+"Office","Office telephone",{type:"tel"})+T(p+"Mobile","Mobile telephone",{type:"tel"})+'</div></fieldset>';}
+function addrBlock(p,title,o){o=o||{};
+  return '<fieldset><div class="legend-row"><h3>'+title+'</h3>'+(o.copy||"")+'</div>'+(o.hint?'<div class="hint">'+o.hint+'</div>':"")+
+  '<div class="grid">'+T(p+"1","Address line 1",{full:true})+T(p+"2","Address line 2",{full:true})+T(p+"3","Town / city")+T(p+"4","County")+T(p+"Post","Post code")+'</div></fieldset>';}
+function copyBtn(target,src,label){return '<button type="button" class="linkbtn" data-copy="'+target+'" data-src="'+src+'">'+label+'</button>';}
+
+/* ---------------- steps ---------------- */
+var STEPS=[
+ {id:"client",short:"Client details",tag:"Section 1",title:"Client details",lead:"Please include as much detail as possible. This helps us understand and deliver on your expectations. Contact our sales team with any questions.",
+  html:function(){return ''+
+   '<fieldset><legend>Your company</legend><div class="grid">'+
+     T("company","Company name",{req:true,ac:"organization",full:true})+
+     T("trading","Trading name (if different)")+
+     SEL("type","Company type",TYPES)+
+     '<div class="f" data-show="type=Other"><label for="f_typeOther">Please specify company type</label><input id="f_typeOther" type="text" data-k="typeOther"></div>'+
+     T("coReg","Company registration number")+
+     T("vatNo","VAT registration number")+
+     T("incDate","Date of incorporation",{type:"date"})+
+     YN("group","Is this company part of a larger group?",{opts:["Yes","No"]})+
+     '<div class="f" data-show="group=Yes"><label for="f_groupName">Name of the group</label><input id="f_groupName" type="text" data-k="groupName"></div>'+
+   '</div></fieldset>'+
+   addrBlock("addr","Company address",{})+
+   '<fieldset><legend>Contact number &amp; business</legend><div class="grid">'+T("tel","Main telephone number",{type:"tel"})+A("business","Description of business activity",{rows:3})+'</div></fieldset>';}},
+ {id:"contacts",short:"Contacts",tag:"Section 1 & 2",title:"Contacts and systems",lead:"Who we’ll deal with day to day, and how we reach your helpdesk. If you issue jobs through your own online system, tell us how to log in.",
+  html:function(){return ''+
+   contactBlock("mc","Main contact",{req:true})+
+   '<fieldset><div class="legend-row"><h3>Client helpdesk contact details</h3>'+copyBtn("hdMain","mc","Same as main contact")+'</div><div class="grid">'+
+     T("hdMain","Main helpdesk contact")+T("hdMainTel","Telephone",{type:"tel"})+T("hdMainEmail","E-mail address",{type:"email",full:true})+
+     T("hdOther","Other contact")+T("hdOtherTel","Telephone",{type:"tel"})+T("hdOtherEmail","E-mail address",{type:"email",full:true})+
+     T("quoteEmail","Quotes to be sent to (e-mail)",{type:"email",full:true})+
+   '</div></fieldset>'+
+   '<fieldset><legend>Your IT system for issuing jobs</legend><div class="hint">Only needed if you’d like us to receive or update jobs through your own portal or software.</div><div class="grid">'+
+     YN("itReq","Do we need to use your IT system?",{opts:["Yes","N/A"],full:true})+
+     '<div class="grid full" data-show="itReq=Yes" style="grid-column:1/-1">'+T("itName","System name")+T("itLink","Link to your system",{type:"url",ph:"https://"})+T("itUser","Username")+T("itPass","Password")+'</div>'+
+   '</div></fieldset>'+
+   '<fieldset><legend>Agreement dates</legend><div class="grid">'+T("startDate","Agreement start date",{type:"date"})+T("ratesUntil","Rates valid until",{type:"date"})+'</div></fieldset>'+
+   '<fieldset><legend>BMC helpdesk and useful contacts</legend><div class="hint">For your records — these appear on the printed agreement.</div><div class="grid">'+
+     '<div class="f"><span class="lbl">Helpdesk e-mail</span><div class="fixed">helpdesk@bmc-ltd.co.uk</div></div>'+
+     '<div class="f"><span class="lbl">Helpdesk telephone</span><div class="fixed">0191 228 4980</div></div>'+
+     '<div class="f"><span class="lbl">Escalation contact</span><div class="fixed">sarah.massey@bmc-ltd.co.uk</div></div>'+
+     '<div class="f"><span class="lbl">Invoice remittance</span><div class="fixed">remittance@bmc-ltd.co.uk</div></div>'+
+   '</div></fieldset>';}},
+ {id:"sites",short:"Sites & jobs",tag:"Section 2",title:"Sites and job volumes",lead:"Roughly how much work to expect, where it is, and how you’ll send it to us.",
+  html:function(){return ''+
+   '<fieldset><legend>Volume</legend><div class="grid">'+T("sites","Approximately how many sites will we cover?",{type:"number"})+T("volume","Approximate expected jobs per month",{type:"number"})+'</div></fieldset>'+
+   '<fieldset><legend>Coverage regions</legend><div class="hint">Select each region we’ll cover, and whether BMC will be your only contractor there. If “Yes”, we will not decline any jobs in that region.</div><div class="regions">'+
+     REGIONS.map(function(r){return '<div class="region">'+CH("reg_"+r[0],r[1])+'<div class="only" data-only="'+r[0]+'"><span>Only contractor?</span><div class="seg" role="radiogroup" aria-label="BMC the only contractor in '+r[1]+'">'+
+       ["Yes","No"].map(function(x,i){return '<label><input type="radio" name="only_'+r[0]+'" id="f_only_'+r[0]+'_'+i+'" data-k="only_'+r[0]+'" value="'+x+'"><span>'+x+'</span></label>';}).join("")+'</div></div></div>';}).join("")+
+   '</div><div class="notice">Please provide us with a site list if possible — you can send it with the signed agreement.</div></fieldset>'+
+   '<fieldset><legend>How will we receive jobs from you?</legend><div class="chips">'+SOURCES.map(function(s){return CH(s[0],s[1]);}).join("")+'</div>'+
+   '<div class="notice">All emergency jobs are to be telephoned through to our helpdesk before the e-mail instruction is sent.</div>'+
+   '<div class="hint" style="margin-top:12px"><strong>Automatic &amp; priority job raising:</strong> if your system creates a standard PDF or purchase order showing your business name, site address with full postcode or site code, description of works and order number, send us a sample and we can set our system to raise your jobs instantly.</div></fieldset>'+
+   '<fieldset><legend>Budget</legend><div class="grid">'+T("budget","Budget per reactive job",{ph:"e.g. £250 + VAT"})+T("uplift","Who do we contact if a budget uplift is required?",{list:"roles"})+'</div></fieldset>';}},
+ {id:"services",short:"Services & site rules",tag:"Section 2",title:"Services and site requirements",lead:"Which trades you expect from us, how you’d like to be kept updated on each job, and any rules for attending your sites. Quote turnaround is 7 days unless otherwise agreed.",
+  html:function(){return ''+
+   '<fieldset><legend>Standard services</legend><div class="chips">'+STD.map(function(s,i){return CH("std"+i,s.trim());}).join("")+'</div></fieldset>'+
+   '<fieldset><legend>Specialist services</legend><div class="chips">'+SPEC.map(function(s,i){return CH("spec"+i,s);}).join("")+'</div></fieldset>'+
+   '<fieldset><legend>Job communication</legend><div class="hint">Select what you need on each job and how you’d like us to update you.</div><div class="chips">'+COMMS.map(function(s,i){return CH("comm"+i,s.replace(" (Specify)",""));}).join("")+'</div>'+
+     '<div class="grid" style="margin-top:14px"><div class="f full" data-show="comm2=true"><label for="f_commOther">Who else should we contact to agree access?</label><input id="f_commOther" type="text" data-k="commOther"></div>'+
+     A("furtherReq","Any further communication requirements",{rows:3})+'</div></fieldset>'+
+   '<fieldset><legend>Health &amp; safety</legend>'+
+     TICK("hsUnderstand","I understand that BMC carry out risk assessments and generic H&amp;S protocols before any works begin. I require no further or bespoke H&amp;S information to be completed.")+
+     '<div class="grid" style="margin-top:14px">'+A("hsRams","If you require specialist or further H&S or RAMS, please specify",{rows:3})+
+     A("asbestos","Location of your asbestos register and any requirement for signatures",{rows:3})+'</div></fieldset>'+
+   '<fieldset><legend>Operational requirements</legend><div class="grid">'+A("opReq","Site requirements",{rows:5,hint:"For example, should we say we’re attending on behalf of your company, or bring photo ID?"})+'</div></fieldset>';}},
+ {id:"invoicing",short:"Invoicing",tag:"Section 3",title:"Invoicing and financials",lead:"Credit terms are 30 days from the date of invoice. The VAT reverse charge questions are mandatory.",
+  html:function(){return ''+
+   '<fieldset><legend>VAT reverse charge</legend><div class="grid three">'+YN("vatReg","Is your company VAT registered?",{req:true})+YN("cisReg","Is your company CIS registered?",{req:true})+YN("endUser","Are you an “End User” of the services BMC provides?",{req:true})+'</div></fieldset>'+
+   '<fieldset><legend>Who pays our invoices?</legend><div class="grid">'+YN("payer","Responsible for payment",{opts:["Company stated above","Your clients"],full:true})+
+     '<div class="f full" data-show="payer=Your clients"><label for="f_payerDetails">Your clients’ company name and company registration number</label><textarea id="f_payerDetails" data-k="payerDetails" rows="2"></textarea></div></div></fieldset>'+
+   addrBlock("inv","Invoice address",{hint:"Leave blank if it’s the same as your company address.",copy:copyBtn("invAddr","addr","Copy company address")})+
+   contactBlock("ic","Invoice contact",{copy:copyBtn("ic","mc","Same as main contact")})+
+   addrBlock("st","Statement address",{hint:"Leave blank if it’s the same as above.",copy:copyBtn("stAddr","addr","Copy company address")})+
+   contactBlock("sc","Statement contact",{copy:copyBtn("sc","ic","Same as invoice contact")})+
+   contactBlock("ap","Accounts payable contact",{copy:copyBtn("ap","ic","Same as invoice contact")})+
+   contactBlock("ec","Escalation contact for payments",{copy:copyBtn("ec","mc","Same as main contact")})+
+   '<fieldset><legend>Invoice delivery and rates</legend>'+TICK("posted","As standard, all invoices and statements are e-mailed to your invoice e-mail address. Tick here if you’d like invoices posted instead.")+
+     '<div class="grid" style="margin-top:14px">'+YN("ratesClear","Have your reactive rates been made clear by our team?")+YN("ratesAgree","Do you agree to your rates and the associated terms?")+
+     A("invInstr","Any further invoicing instructions",{rows:3})+'</div>'+
+     '<div class="hint" style="margin:12px 0 0">BMC bank details: Building Maintenance Services North East Ltd, NatWest PLC, Abbey House, 282 Farnborough Road, Hants GU14 7YU · Sort code 60-08-46 · Account 67722288</div></fieldset>';}},
+ {id:"kpi",short:"KPIs & SLAs",tag:"KPI / SLA",title:"KPI and SLA requirements",lead:"If you set KPIs or SLAs for your contractors, list them here. We always aim to hit these targets, and in the spirit of partnership we ask for every opportunity to do so through working together and open communication. Leave blank if none apply.",
+  html:function(){return '<div id="kpiList"></div><button type="button" class="btn" id="addKpi">Add another KPI / SLA</button><div class="hint" style="margin-top:10px">Up to 7 KPIs / SLAs fit on the agreement.</div>';}},
+ {id:"sign",short:"Sign & send",tag:"Section 4",title:"Confirm, sign and send",lead:"Check the finished agreement below, sign it, attach your company letterhead and press Send. It goes straight to The Building Maintenance Company. We’ll open your account and send you a countersigned copy before you issue your first job.",
+  html:function(){return ''+
+   '<fieldset><legend>Further information</legend><div style="display:grid;gap:10px">'+
+     TICK("marketing","Your e-mail address will be added to our database to send you relevant information and standard welcome e-mails. Tick if you’re happy to receive these.")+
+     TICK("ratesReview","I understand rates are subject to the approximate job volume specified on this form, and may be reviewed 3 months after the commencement date as a result.")+
+   '</div></fieldset>'+
+   '<fieldset><legend>Signed by client</legend><div class="hint">I agree to the rates as provided and understand that all transactions are subject to The Building Maintenance Company standard terms and conditions of sale (a copy is available on request). I also agree to give BMC 1 month’s written notice of termination of their services, providing the reason, and to provide them with regular work during the notice period.</div>'+
+     '<div class="grid">'+T("sigName","Name",{req:true})+T("sigPos","Position")+T("sigDate","Date",{type:"date",req:true})+
+     '<div class="f full"><span class="lbl">Signature <span style="font-weight:400;color:var(--muted)">— draw with your mouse or finger</span></span>'+
+     '<div class="sigbox"><canvas id="sigPad" aria-label="Signature pad"></canvas><div class="base"></div><div class="ph">Sign above the line</div></div>'+
+     '<div><button type="button" class="linkbtn" id="sigClear">Clear signature</button></div></div></div></fieldset>'+
+   '<fieldset><legend>Attachments</legend><div class="grid">'+
+     '<div class="f"><label for="f_letterhead">Company letterhead <span style="font-weight:400;color:var(--muted)">(PDF, Word or image, up to 3 MB)</span></label><input id="f_letterhead" type="file" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg"></div>'+
+     '<div class="f"><label for="f_sitelist">Site list <span style="font-weight:400;color:var(--muted)">(optional, up to 3 MB)</span></label><input id="f_sitelist" type="file" accept=".pdf,.xls,.xlsx,.csv,.doc,.docx"></div>'+
+   '</div><div class="hint" id="fileMsg" style="margin:10px 0 0"></div></fieldset>'+
+   '<div id="checkArea"></div>'+
+   '<div style="position:absolute;left:-9999px" aria-hidden="true"><label>Website <input id="hp_website" tabindex="-1" autocomplete="off"></label></div>'+
+   '<div class="sendbox" id="sendBox"><button type="button" class="btn print big" id="sendBtn">Send to BMC</button>'+
+   '<span class="howto" id="sendMsg" aria-live="polite">Your completed Partnership Agreement is sent to BMC as an Excel file, in the original BMC format.</span></div>'+
+   '<div class="printcta"><button type="button" class="linkbtn" id="xlsBtn">Download a copy for your records</button><span class="howto" id="xlsMsg" aria-live="polite"></span></div>'+
+   '<div class="preview-frame" id="pvFrame"><div class="preview-scale" id="pvScale"></div></div>'+
+   '<div class="printcta"><span class="confirm" id="resetArea"><button type="button" class="linkbtn" id="resetBtn">Clear all answers and start again</button></span></div>';}}
+];
+
+/* ---------------- build UI ---------------- */
+var IMGS={"contacts":["assets/img/helpdesk.jpg","BMC helpdesk team member on the phone"],"sites":["assets/img/reactive.jpg","BMC engineer carrying out a reactive repair"],"services":["assets/img/planned.jpg","BMC operative at a company van"],"invoicing":["assets/img/refurb.jpg","BMC office team at work"],"kpi":["assets/img/contact.webp","BMC engineers at work","cut"]};
+var app=document.getElementById("app"),list=document.getElementById("stepList");
+app.innerHTML='<datalist id="roles">'+CONTACT_ROLES.map(function(r){return '<option value="'+r+'">';}).join("")+'</datalist>'+
+ STEPS.map(function(s,i){var im=IMGS[s.id];return '<section class="step" id="step-'+s.id+'" '+(i?"hidden":"")+' aria-labelledby="h-'+s.id+'"><div class="step-head'+(im?" has-img":"")+'"><div><div class="tag">'+s.tag+'</div><h2 id="h-'+s.id+'">'+s.title+'</h2><p>'+s.lead+'</p></div>'+(im?'<div class="pic'+(im[2]?" cut":"")+'"><img src="'+im[0]+'" alt="'+im[1]+'" loading="lazy" onerror="this.parentNode.closest(\'.step-head\').classList.remove(\'has-img\');this.parentNode.remove()"></div>':"")+'</div>'+s.html()+'</section>';}).join("");
+list.innerHTML=STEPS.map(function(s,i){return '<li><button type="button" data-go="'+i+'"><span class="n">'+(i+1)+'</span>'+s.short+'</button></li>';}).join("");
+
+function setInputs(){
+  app.querySelectorAll("[data-k]").forEach(function(el){var k=el.dataset.k,v=S[k];
+    if(el.type==="checkbox")el.checked=!!v;
+    else if(el.type==="radio")el.checked=(v===el.value);
+    else el.value=v==null?"":v;});
+  refreshConditional();
+}
+function refreshConditional(){
+  app.querySelectorAll("[data-show]").forEach(function(el){var p=el.dataset.show.split("=");var v=S[p[0]];el.hidden=String(v===true?"true":v||"")!==p[1];});
+  REGIONS.forEach(function(r){var box=app.querySelector('[data-only="'+r[0]+'"]');if(box)box.setAttribute("aria-disabled",S["reg_"+r[0]]?"false":"true");});
+}
+app.addEventListener("input",onChange);app.addEventListener("change",onChange);
+function onChange(e){var el=e.target,k=el.dataset&&el.dataset.k;if(!k)return;
+  if(el.type==="checkbox")S[k]=el.checked;else if(el.type==="radio"){if(el.checked)S[k]=el.value;}else S[k]=el.value;
+  refreshConditional();save();if(cur===STEPS.length-1)renderReview();}
+app.addEventListener("submit",function(e){e.preventDefault();});
+
+// copy helpers
+var CONTACT_F=["Name","Title","Email","Office","Mobile"],ADDR_F=["1","2","3","4","Post"];
+app.addEventListener("click",function(e){var b=e.target.closest("[data-copy]");if(!b)return;
+  var t=b.dataset.copy,src=b.dataset.src;
+  if(t==="hdMain"){S.hdMain=S.mcName||"";S.hdMainTel=S.mcOffice||S.mcMobile||"";S.hdMainEmail=S.mcEmail||"";}
+  else if(t==="invAddr"||t==="stAddr"){var p=t==="invAddr"?"inv":"st";ADDR_F.forEach(function(f){S[p+f]=S[src+f]||"";});}
+  else CONTACT_F.forEach(function(f){S[t+f]=S[src+f]||"";});
+  setInputs();save();});
+
+/* ---------------- KPI rows ---------------- */
+function renderKpis(){var box=document.getElementById("kpiList");
+  box.innerHTML=S.kpis.map(function(r,i){return '<div class="kpi"><div class="f"><label for="k_n'+i+'">KPI / SLA name</label><input id="k_n'+i+'" type="text" data-ki="'+i+'" data-kf="name" value="'+esc(r.name)+'"></div>'+
+    '<div class="f"><label for="k_t'+i+'">Target</label><input id="k_t'+i+'" type="text" data-ki="'+i+'" data-kf="target" placeholder="e.g. 95% attended within 4 hours" value="'+esc(r.target)+'"></div>'+
+    '<div class="f full"><label for="k_d'+i+'">Description</label><input id="k_d'+i+'" type="text" data-ki="'+i+'" data-kf="desc" value="'+esc(r.desc)+'"></div>'+
+    '<div class="f full"><label for="k_i'+i+'">Further information / instructions / penalties</label><input id="k_i'+i+'" type="text" data-ki="'+i+'" data-kf="info" value="'+esc(r.info)+'"></div>'+
+    (S.kpis.length>1?'<button type="button" class="linkbtn rm" data-rm="'+i+'">Remove</button>':"")+'</div>';}).join("");
+}
+document.getElementById("kpiList").addEventListener("input",function(e){var el=e.target;if(el.dataset.ki==null)return;S.kpis[+el.dataset.ki][el.dataset.kf]=el.value;save();});
+document.getElementById("kpiList").addEventListener("click",function(e){var b=e.target.closest("[data-rm]");if(!b)return;S.kpis.splice(+b.dataset.rm,1);renderKpis();save();});
+document.getElementById("addKpi").addEventListener("click",function(){if(S.kpis.length>=7)return;S.kpis.push({});renderKpis();save();var ins=document.querySelectorAll("#kpiList input");ins[ins.length-4].focus();});
+
+/* ---------------- signature pad ---------------- */
+var pad=document.getElementById("sigPad"),ctx,drawing=false,last=null;
+function sizePad(){var r=pad.getBoundingClientRect();if(!r.width)return;var dpr=window.devicePixelRatio||1;pad.width=r.width*dpr;pad.height=r.height*dpr;ctx=pad.getContext("2d");ctx.scale(dpr,dpr);ctx.lineWidth=2.2;ctx.lineCap="round";ctx.lineJoin="round";ctx.strokeStyle="#6e1014";
+  if(S.sig){var im=new Image();im.onload=function(){ctx.drawImage(im,0,0,r.width,r.height);};im.src=S.sig;}}
+function pt(e){var r=pad.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};}
+pad.addEventListener("pointerdown",function(e){if(!ctx)sizePad();drawing=true;last=pt(e);pad.setPointerCapture(e.pointerId);ctx.beginPath();ctx.arc(last.x,last.y,1.1,0,Math.PI*2);ctx.fillStyle="#6e1014";ctx.fill();});
+pad.addEventListener("pointermove",function(e){if(!drawing)return;var p=pt(e);ctx.beginPath();ctx.moveTo(last.x,last.y);ctx.lineTo(p.x,p.y);ctx.stroke();last=p;});
+function endStroke(){if(!drawing)return;drawing=false;S.sig=pad.toDataURL("image/png");save();renderReview();}
+pad.addEventListener("pointerup",endStroke);pad.addEventListener("pointercancel",endStroke);
+document.getElementById("sigClear").addEventListener("click",function(){if(ctx)ctx.clearRect(0,0,pad.width,pad.height);S.sig="";save();renderReview();});
+
+/* ---------------- navigation ---------------- */
+var cur=0;
+function go(i){cur=Math.max(0,Math.min(STEPS.length-1,i));
+  STEPS.forEach(function(s,j){document.getElementById("step-"+s.id).hidden=j!==cur;});
+  list.querySelectorAll("button").forEach(function(b,j){if(j===cur)b.setAttribute("aria-current","step");else b.removeAttribute("aria-current");b.classList.toggle("done",j<cur);});
+  var cb=list.querySelectorAll("button")[cur];if(cb&&cb.scrollIntoView)cb.scrollIntoView({block:"nearest",inline:"center"});
+  document.getElementById("introBox").hidden=cur!==0;
+  document.getElementById("prevBtn").disabled=cur===0;
+  var nb=document.getElementById("nextBtn");nb.textContent=cur===STEPS.length-2?"Review & sign":"Next";nb.hidden=cur===STEPS.length-1;
+  document.getElementById("pos").textContent="Step "+(cur+1)+" of "+STEPS.length;
+  if(cur===STEPS.length-1){sizePad();renderReview();}
+  window.scrollTo({top:0,behavior:"auto"});
+  try{localStorage.setItem(STORE+"-step",cur);}catch(e){}
+}
+list.addEventListener("click",function(e){var b=e.target.closest("[data-go]");if(b)go(+b.dataset.go);});
+document.getElementById("prevBtn").addEventListener("click",function(){go(cur-1);});
+document.getElementById("nextBtn").addEventListener("click",function(){go(cur+1);});
+document.getElementById("xlsBtn").addEventListener("click",function(){var m=document.getElementById("xlsMsg");m.textContent="Preparing…";
+  window.BMCExcel.download(S).then(function(name){m.innerHTML="<b>Downloaded:</b> "+esc(name);})
+  .catch(function(err){m.textContent="The Excel file couldn’t be created in this browser. Please try Chrome, Edge or Safari.";if(window.console)console.error(err);});});
+window.addEventListener("beforeprint",renderPrint);
+
+/* ---------------- attachments (kept in memory only) ---------------- */
+var FILES={letterhead:null,site_list:null},MAXF=3*1024*1024;
+function pickFile(inputId,key){document.getElementById(inputId).addEventListener("change",function(){var f=this.files&&this.files[0],m=document.getElementById("fileMsg");
+  if(f&&f.size>MAXF){this.value="";FILES[key]=null;m.textContent=f.name+" is larger than 3 MB. Please choose a smaller file or e-mail it to BMC separately.";return;}
+  FILES[key]=f||null;m.textContent="";});}
+pickFile("f_letterhead","letterhead");pickFile("f_sitelist","site_list");
+
+/* ---------------- plain-text summary for the e-mail ---------------- */
+function summaryText(){
+  var L=[],a=function(label,k){var v=S[k];if(v)L.push(label+": "+(/Date|Until$/.test(k)?dt(k).replace(/&amp;/g,"&"):v));};
+  L.push("PARTNERSHIP AGREEMENT – "+(S.company||""));L.push("");
+  a("Company","company");a("Trading name","trading");a("Type","type");a("Co. reg no.","coReg");a("VAT no.","vatNo");
+  a("Address","addr1");a("","addr2");a("","addr3");a("","addr4");a("Post code","addrPost");a("Telephone","tel");L.push("");
+  a("Main contact","mcName");a("Job title","mcTitle");a("E-mail","mcEmail");a("Office","mcOffice");a("Mobile","mcMobile");L.push("");
+  a("Agreement start","startDate");a("Rates valid until","ratesUntil");a("Approx. sites","sites");a("Approx. jobs per month","volume");
+  a("Budget per reactive job","budget");a("VAT registered","vatReg");a("CIS registered","cisReg");a("End user","endUser");
+  a("Rates made clear","ratesClear");a("Agrees to rates","ratesAgree");L.push("");
+  a("Signed by","sigName");a("Position","sigPos");a("Date","sigDate");
+  L.push("");L.push("Full details are in the attached Excel agreement.");
+  return L.filter(function(x,i,arr){return !(x===""&&arr[i-1]==="");}).join("\n");
+}
+
+/* ---------------- send to BMC ---------------- */
+document.getElementById("sendBtn").addEventListener("click",function(){
+  var b=this,m=document.getElementById("sendMsg");
+  var miss=REQUIRED.filter(function(r){return !S[r[0]];});
+  if(miss.length){renderReview();m.innerHTML="<b>Almost there:</b> please complete the "+miss.length+" required "+(miss.length===1?"answer":"answers")+" listed above, then press Send.";document.getElementById("checkArea").scrollIntoView({block:"center"});return;}
+  b.disabled=true;b.textContent="Sending…";m.textContent="Preparing your agreement…";
+  var old=document.querySelector("#sendBox .senderr");if(old)old.remove();
+  var URL_=(window.BMC_CONFIG&&window.BMC_CONFIG.sendUrl)||"";
+  if(!/^https:\/\/script\.google\.com\//.test(URL_)){b.disabled=false;b.textContent="Send to BMC";m.innerHTML="<b>Sending isn’t switched on yet.</b> Please use “Download a copy” below and e-mail the file to helpdesk@bmc-ltd.co.uk.";return;}
+  function b64(blob){return new Promise(function(res,rej){var r=new FileReader();r.onload=function(){res(String(r.result).split(",")[1]);};r.onerror=rej;r.readAsDataURL(blob);});}
+  var xname=window.BMCExcel.fileName(S),xblob;
+  window.BMCExcel.build(S).then(function(blob){xblob=blob;
+    var list=[[xblob,xname,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","agreement"]];
+    if(FILES.letterhead)list.push([FILES.letterhead,FILES.letterhead.name,FILES.letterhead.type,"letterhead"]);
+    if(FILES.site_list)list.push([FILES.site_list,FILES.site_list.name,FILES.site_list.type,"site_list"]);
+    return Promise.all(list.map(function(f){return b64(f[0]).then(function(d){return {name:f[1],mimeType:f[2]||"application/octet-stream",kind:f[3],data:d};});}));
+  }).then(function(files){
+    m.textContent="Sending to BMC…";
+    var payload={company:S.company||"",contact:S.mcName||"",email:S.mcEmail||"",phone:S.mcOffice||S.mcMobile||"",
+      submitted:new Date().toLocaleString("en-GB"),summary:summaryText(),files:files,website:document.getElementById("hp_website").value};
+    return fetch(URL_,{method:"POST",body:JSON.stringify(payload)});   // plain text body: no CORS preflight
+  }).then(function(res){return res.json();}).then(function(r){
+    if(!r||!r.ok)throw new Error((r&&r.error)||"Send failed");
+    S.sentAt=new Date().toISOString();save();
+    document.getElementById("sendBox").outerHTML='<div class="sent" id="sendBox"><h3>Sent – thank you</h3><p>Your Partnership Agreement has been sent to The Building Maintenance Company'+(S.mcEmail?'. We’ll be in touch at '+esc(S.mcEmail):'')+'. We’ll open your account and send you a countersigned copy.</p></div>';
+  }).catch(function(err){
+    if(window.console)console.error(err);
+    b.disabled=false;b.textContent="Send to BMC";m.textContent="";
+    var e=document.createElement("div");e.className="senderr";
+    e.innerHTML="<b>Your agreement couldn’t be sent.</b> Please check your internet connection and press Send again. If it still doesn’t send, use “Download a copy” below and e-mail the file to helpdesk@bmc-ltd.co.uk.";
+    document.getElementById("sendBox").appendChild(e);
+  });
+});
+
+// reset with in-page confirmation
+document.getElementById("resetArea").addEventListener("click",function(e){var a=document.getElementById("resetArea");
+  if(e.target.id==="resetBtn"){a.innerHTML='<span>This deletes every answer on this device.</span> <button type="button" class="btn" id="resetYes" style="min-height:34px;padding:5px 12px">Yes, clear everything</button> <button type="button" class="linkbtn" id="resetNo">Cancel</button>';}
+  else if(e.target.id==="resetNo"){a.innerHTML='<button type="button" class="linkbtn" id="resetBtn">Clear all answers and start again</button>';}
+  else if(e.target.id==="resetYes"){try{localStorage.removeItem(STORE);localStorage.removeItem(STORE+"-step");}catch(x){}S={kpis:[{}],sigDate:new Date().toISOString().slice(0,10)};if(ctx)ctx.clearRect(0,0,pad.width,pad.height);setInputs();renderKpis();a.innerHTML='<button type="button" class="linkbtn" id="resetBtn">Clear all answers and start again</button>';go(0);}
+});
+
+/* ---------------- review ---------------- */
+var REQUIRED=[["company","Company name",0],["mcName","Main contact name",1],["mcEmail","Main contact e-mail",1],["vatReg","VAT registered? (reverse charge)",4],["cisReg","CIS registered? (reverse charge)",4],["endUser","End User? (reverse charge)",4],["sigName","Your name (signature)",6],["sigDate","Date signed",6]];
+function renderReview(){
+  if(S.sentAt){var sb=document.getElementById("sendBox");if(sb&&!sb.classList.contains("sent")){var d=new Date(S.sentAt);var sm=document.getElementById("sendMsg");if(sm)sm.innerHTML="<b>Already sent</b> on "+d.toLocaleDateString("en-GB")+". Pressing Send again sends an updated copy.";}}
+  var miss=REQUIRED.filter(function(r){return !S[r[0]];});
+  document.getElementById("checkArea").innerHTML=miss.length?'<div class="missing"><h3>'+miss.length+' required '+(miss.length===1?"answer is":"answers are")+' still missing</h3><ul>'+miss.map(function(r){return '<li><button type="button" class="linkbtn" data-go-step="'+r[2]+'" data-focus="'+r[0]+'">'+r[1]+'</button></li>';}).join("")+'</ul></div>':'<div class="allgood">All required answers are complete. Your agreement is ready to print.</div>';
+  var h=formHTML();document.getElementById("pvScale").innerHTML=h;document.getElementById("printRoot").innerHTML=h;fitPreview();
+}
+document.getElementById("checkArea").addEventListener("click",function(e){var b=e.target.closest("[data-go-step]");if(!b)return;go(+b.dataset.goStep);var f=document.getElementById("f_"+b.dataset.focus)||document.getElementById("f_"+b.dataset.focus+"_0");if(f)setTimeout(function(){f.focus();f.scrollIntoView({block:"center"});},30);});
+function fitPreview(){var fr=document.getElementById("pvFrame"),sc=document.getElementById("pvScale");if(!fr||!sc.firstElementChild)return;
+  var avail=fr.clientWidth-28,w=sc.firstElementChild.offsetWidth,k=Math.min(1,avail/w);sc.style.transform="scale("+k+")";sc.style.height=(sc.scrollHeight*k)+"px";fr.style.height=(sc.scrollHeight*k+28)+"px";}
+window.addEventListener("resize",function(){if(cur===STEPS.length-1){document.getElementById("pvScale").style.height="";fitPreview();}});
+function renderPrint(){document.getElementById("printRoot").innerHTML=formHTML();}
+
+/* =====================================================================
+   PRINTED FORM
+   ===================================================================== */
+function v(k){return esc(S[k]||"");}
+function dt(k){var x=S[k];if(!x)return "";var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(x);return m?m[3]+"/"+m[2]+"/"+m[1]:esc(x);}
+function ck(on){return '<span class="ck">'+(on?"&#10003;":"")+'</span>';}
+function ml(k){return esc(S[k]||"").replace(/\n/g,"<br>");}
+function contactRows(p,first){return '<tr><td class="'+(first.cls||"")+'">'+first.label+'</td><td class="v">'+v(p+"Name")+'</td></tr>'+
+  [["Title","Job title"],["Email","E-mail address"],["Office","Office telephone"],["Mobile","Mobile telephone "]].map(function(f){return '<tr><td class="'+(first.sub||"")+'">'+f[1]+'</td><td class="v">'+v(p+f[0])+'</td></tr>';}).join("");}
+function addrRows(p,label){return '<tr><td colspan="2">'+label+'</td></tr>'+["1","2","3","4"].map(function(f){return '<tr><td colspan="2" class="v">'+v(p+f)+'</td></tr>';}).join("")+'<tr><td colspan="2">&nbsp;</td></tr><tr><td>Post Code</td><td class="v">'+v(p+"Post")+'</td></tr>';}
+function header(sub){return '<div class="head"><img src="'+LOGO+'" alt=""><div class="t"><div class="t1">The Building Maintenance Company</div><div class="t2">'+sub+'</div></div><img src="'+LOGO+'" alt=""></div>';}
+
+function formHTML(){
+ var typeTxt=S.type==="Other"&&S.typeOther?"Other – "+v("typeOther"):v("type");
+ var groupTxt=S.group==="Yes"&&S.groupName?"Yes – "+v("groupName"):v("group");
+ var p1=''+
+ header("Partnership Agreement")+
+ '<div class="lead">This Partnership Agreement is designed to ensure that we have fully understood and captured our clients\' needs and expectations. This form covers everything we need, to manage your account to the standard you expect, showing our commitment to you as a valued customer. In return, while our clients are not under any legal or contractual obligations, <u>we do ask for your commitment to us </u>by honouring your part of the agreement and endeavour to deliver the volume of business you have indicated below. As part of your commitment to us we would like to refer you to the termination clause at the foot of this agreement, which we feel is only fair and proper to both parties.<br>Thank you once again for agreeing to enter into a partnership with us and we look forward to a long and successful working relationship with you.</div>'+
+ '<div class="band"></div><div class="bar">1 - Client Details</div>'+
+ '<div class="box">'+
+  '<div class="note">Please include as much detail as possible. This form will help us to understand and deliver upon your expectations. Please read carefully and contact our sales team with any queries.</div>'+
+  '<div class="row">'+
+   '<div style="width:34mm"><table><col style="width:17mm"><col><tr><td style="height:7mm">Date of Incorporation</td><td class="v">'+dt("incDate")+'</td></tr></table></div>'+
+   '<div class="col" style="padding-left:6mm"><table><col style="width:38mm"><col><tr><td>Clients company name</td><td class="v c b" style="font-size:10pt">'+v("company")+'</td></tr><tr><td>Clients trading name If different</td><td class="v">'+v("trading")+'</td></tr><tr><td>Co, Reg Number</td><td class="v">'+v("coReg")+'</td></tr><tr><td>VAT Registration Number</td><td class="v">'+v("vatNo")+'</td></tr><tr><td>Is this company part of a larger group?</td><td class="v">'+groupTxt+'</td></tr></table></div>'+
+   '<div style="width:28mm;padding-left:2mm"><table><tr><td class="g" style="background:#c0c0c0">Type (Ltd/plc)</td></tr><tr><td class="v">'+typeTxt+'</td></tr></table></div>'+
+  '</div><div class="gap"></div>'+
+  '<div class="row">'+
+   '<div class="col" style="flex:1.1"><table><col style="width:16mm"><col><tr><td>Address</td><td class="v">'+v("addr1")+'</td></tr><tr><td colspan="2" class="v">'+v("addr2")+'</td></tr><tr><td colspan="2" class="v">'+v("addr3")+'</td></tr><tr><td colspan="2" class="v">'+v("addr4")+'</td></tr><tr><td>Post code</td><td class="v">'+v("addrPost")+'</td></tr><tr class="nob"><td colspan="2" style="height:1.5mm;padding:0"></td></tr><tr><td>Tel. number</td><td class="v">'+v("tel")+'</td></tr></table></div>'+
+   '<div class="col"><table><tr><td class="c">Description of business activity:</td></tr><tr><td class="v multi" style="height:13mm">'+ml("business")+'</td></tr></table></div>'+
+  '</div><div class="gap"></div>'+
+  '<div class="row">'+
+   '<div class="col" style="flex:1.1"><table><col style="width:40mm"><col><tr><td class="y">Client IT System requirements</td><td class="y v">'+(v("itReq")||"N/A")+'</td></tr><tr><td class="b">System Name</td><td class="v">'+v("itName")+'</td></tr><tr><td class="b">Link to customer system</td><td class="v">'+v("itLink")+'</td></tr><tr><td class="b">Username</td><td class="v">'+v("itUser")+'</td></tr><tr><td class="b">Password</td><td class="v">'+v("itPass")+'</td></tr></table></div>'+
+   '<div class="col"><table><col style="width:29mm"><col><tr><td class="y">Main contact name</td><td class="y v" style="font-weight:normal">'+v("mcName")+'</td></tr><tr><td class="b">Job title</td><td class="v">'+v("mcTitle")+'</td></tr><tr><td class="b">E-mail address</td><td class="v">'+v("mcEmail")+'</td></tr><tr><td class="b">Office telephone</td><td class="v">'+v("mcOffice")+'</td></tr><tr><td class="b">Mobile telephone</td><td class="v">'+v("mcMobile")+'</td></tr></table></div>'+
+  '</div><div class="gap"></div>'+
+  '<table class="small"><col style="width:17mm"><col style="width:17mm"><col><col style="width:16mm"><col style="width:30mm"><col style="width:26mm"><tr><td colspan="2">Internal BMC use only:</td><td colspan="2">Introduction to client from Helpdesk Manager/Operations Manager:</td><td>Date:</td><td>By Whom:</td></tr><tr><td>E360 Code:</td><td></td><td colspan="4" style="border:none"></td></tr></table>'+
+ '</div>'+
+ '<div class="band"></div><div class="bar">2 - Operational &amp; Site Details</div>'+
+ '<div class="box open">'+
+  '<div class="row">'+
+   '<div style="width:34mm"><div style="height:4.2mm"></div><table><col style="width:17mm"><col><tr><td class="g c" style="height:8.5mm">Agreement start date</td><td class="v">'+dt("startDate")+'</td></tr></table><div style="height:4mm"></div><table><col style="width:17mm"><col><tr><td class="g c" style="height:8.5mm">Rates valid until date</td><td class="v">'+dt("ratesUntil")+'</td></tr></table></div>'+
+   '<div class="col" style="padding-left:4mm;padding-right:28mm"><table><col style="width:19mm"><col style="width:19mm"><col><col style="width:17mm"><col style="width:27mm">'+
+    '<tr><td class="hd" colspan="5">Client Helpdesk contact details</td></tr>'+
+    '<tr><td class="y">Main contact</td><td class="y v" colspan="2" style="font-weight:normal">'+v("hdMain")+'</td><td class="y">Tel. number</td><td class="y v" style="font-weight:normal">'+v("hdMainTel")+'</td></tr>'+
+    '<tr><td class="y" colspan="2">E-mail address</td><td class="y v" colspan="3" style="font-weight:normal">'+v("hdMainEmail")+'</td></tr>'+
+    '<tr class="nob"><td colspan="5" style="height:3.5mm"></td></tr>'+
+    '<tr><td class="y">Other contact</td><td class="y v" colspan="2" style="font-weight:normal">'+v("hdOther")+'</td><td class="y">Tel. number</td><td class="y v" style="font-weight:normal">'+v("hdOtherTel")+'</td></tr>'+
+    '<tr><td class="y" colspan="2">E-mail address</td><td class="y v" colspan="3" style="font-weight:normal">'+v("hdOtherEmail")+'</td></tr>'+
+    '<tr><td class="y" colspan="2">Quote to be sent to - E-mail </td><td class="y v" colspan="3" style="font-weight:normal">'+v("quoteEmail")+'</td></tr>'+
+    '<tr class="nob"><td colspan="5" style="height:3.5mm"></td></tr>'+
+    '<tr><td class="hd" colspan="5"><span style="color:#ff0000">BMC</span> Helpdesk and other useful contact details</td></tr>'+
+    '<tr><td colspan="2">E-mail address</td><td colspan="3" class="c"><a>helpdesk@bmc-ltd.co.uk</a></td></tr>'+
+    '<tr><td colspan="2">Tel. number</td><td colspan="3" class="c">0191 228 4980</td></tr>'+
+    '<tr><td colspan="2">Escalation Contact</td><td colspan="3"><a class="small">sarah.massey@bmc-ltd.co.uk</a></td></tr>'+
+    '<tr><td colspan="2">Invoice Remittance Contact</td><td colspan="3" class="c"><a>remittance@bmc-ltd.co.uk</a></td></tr>'+
+   '</table></div>'+
+  '</div><div class="gap"></div><div class="gap"></div>'+
+  '<div class="row"><div class="col"><table><col><col style="width:22mm"><tr><td>How many sites will we cover? Approx.</td><td class="v c">'+v("sites")+'</td></tr></table></div><div style="width:18mm"></div>'+
+   '<div class="col"><table><col><col style="width:13mm"><col style="width:16mm"><tr><td>Approx. expected job volumes</td><td class="v c">'+v("volume")+'</td><td class="c">Per month</td></tr></table></div></div>'+
+  '<div class="gap"></div>'+
+  '<div class="row">'+
+   '<div class="col" style="flex:1.1"><table><col><col style="width:22mm"><col style="width:18.5mm">'+
+    '<tr><td class="hd" colspan="2" style="vertical-align:bottom">Agreed coverage regions (Please Select)</td><td class="hd" style="font-size:6.3pt">BMC the Only contractor?</td></tr>'+
+    REGIONS.map(function(r){var on=!!S["reg_"+r[0]],o=on?S["only_"+r[0]]:"";return '<tr><td class="c">'+r[1]+'</td><td class="c">'+ck(on)+'</td><td class="small" style="white-space:nowrap">'+ck(o==="Yes")+' Yes &nbsp;'+ck(o==="No")+' No</td></tr>';}).join("")+
+    '<tr><td class="c b" colspan="2" style="height:6mm">Please provide us with a site list if possible.</td><td class="y c small" style="font-size:5.8pt">If \'Yes\' We will not decline any Jobs.</td></tr>'+
+   '</table></div>'+
+   '<div class="col"><table><col><col style="width:28mm"><tr><td class="hd" colspan="2">Job source, how will we receive Jobs from you?</td></tr>'+
+    SOURCES.map(function(s){return '<tr><td class="c">'+s[1]+'</td><td class="c">'+ck(S[s[0]])+'</td></tr>';}).join("")+
+    '<tr><td colspan="2" class="c b small" style="height:6mm">N.B All emergency jobs are to be telephoned through to our helpdesk prior to receiving an e-mail instruction</td></tr></table></div>'+
+  '</div>'+
+  '<div style="border-top:.6pt solid #000;border-bottom:.6pt solid #000;margin-top:2mm;padding:.8mm 1mm;font-size:6.9pt"><b><u>Automatic &amp; priority job raising</u>:</b><br>BMC systems offer the ability to seamlessly raise jobs from your system to ours via e-mail attachments. If you use a system which creates a standard PDF or PURCHASE ORDER document stating <b>YOUR BUSINESS NAME</b>, <b>SITE ADDRESS WITH FULL POSTCODE</b> or <b>SITE CODE</b>, <b>DESCRIPTION OF WORKS</b> and <b>ORDER NUMBER</b> then please send us a sample copy and we can set our system to read your order and raise it instantly onto our system for action.</div>'+
+  '<div style="padding:3mm 0 0 44mm;width:152mm"><table><col><col style="width:30mm"><tr><td class="y c">Budget per reactive job</td><td class="y v" style="font-weight:normal">'+v("budget")+'</td></tr><tr><td class="y">Who do we contact if budget uplift is required?</td><td class="y v" style="font-weight:normal">'+v("uplift")+'</td></tr></table></div>'+
+ '</div>';
+
+ var p2=''+
+ '<div class="box top" style="padding-top:1.5mm">'+
+  '<div class="row">'+
+   '<div class="col"><table><col><col style="width:13mm"><col style="width:25mm"><col style="width:12mm">'+
+    '<tr><td class="hd" colspan="4">Which services can we expect to provide you with.</td></tr><tr><td class="c" colspan="2">Standard services</td><td class="c" colspan="2">Specialist services</td></tr>'+
+    STD.map(function(s,i){var sp=SPEC[i];return '<tr><td>'+esc(s)+'</td><td class="c">'+ck(S["std"+i])+'</td>'+(sp!=null?'<td>'+sp+'</td><td class="c">'+ck(S["spec"+i])+'</td>':'<td colspan="2" style="border:none"></td>')+'</tr>';}).join("")+
+    '</table>'+
+    '<div class="c b" style="margin:2.2mm 0">N.B Quote turnaround is 7 days unless otherwise agreed.</div>'+
+    '<table><col><col style="width:20mm"><col style="width:17mm"><tr><td class="hd" colspan="3">Job communication requirements</td></tr><tr><td class="y c" colspan="3" style="font-weight:normal">Please select which services you require per job &amp; how you would like us to update you.</td></tr>'+
+    COMMS.map(function(s,i){return '<tr><td class="y">'+esc(s)+'</td><td class="c y" style="background:#fff">'+ck(S["comm"+i])+'</td>'+(i===0?'<td class="y v" rowspan="7" style="font-weight:normal;vertical-align:top">'+(S.comm2&&S.commOther?"Other: "+v("commOther"):"")+'</td>':"")+'</tr>';}).join("")+
+    '</table><div class="gap"></div>'+
+    '<table><tr><td class="c">If any further requirements please specify below.</td></tr><tr><td class="v multi" style="height:22mm">'+ml("furtherReq")+'</td></tr></table>'+
+    '<div class="c" style="margin-top:3mm">KPI / SLA Requirements can be found on the next page</div>'+
+   '</div>'+
+   '<div class="col"><table><tr><td class="hd">Health &amp; Safety requirements</td></tr><tr><td class="c">Please include as much detail as possible.</td></tr></table><div class="gap"></div>'+
+    '<div style="display:flex;width:70%"><table><col><col style="width:10mm"><tr><td class="c small" style="height:9mm">I Understand the BMC carry out RISK ASSESSMENTS and generic H &amp; S protocols prior to all works being commenced. I require no further or bespoke H &amp; S information to be completed.</td><td class="c">'+ck(S.hsUnderstand)+'</td></tr></table></div><div class="gap"></div>'+
+    '<table><tr><td class="c">If you require specialist or further H&amp;S or RAMS to be carried out please specify below</td></tr><tr><td class="v multi" style="height:20mm">'+ml("hsRams")+'</td></tr></table><div class="gap"></div>'+
+    '<table><tr><td class="c small">Please specify the location of your asbestos register &amp; any requirement for signatures</td></tr><tr><td class="v multi" style="height:12mm">'+ml("asbestos")+'</td></tr></table><div class="gap"></div>'+
+    '<table><tr><td class="y c">Operational requirements</td></tr><tr><td class="c small">Please include as much detail as possible in relation to your site requirements e.g., Do you want us to state we are attending on behalf of ABC Ltd or please bring photo ID etc?</td></tr><tr><td class="v multi" style="height:30mm">'+ml("opReq")+'</td></tr></table>'+
+   '</div>'+
+  '</div>'+
+ '</div>'+
+ '<div class="band"></div><div class="bar">3 - Invoicing &amp; Financials</div>'+
+ '<div class="box">'+
+  '<table style="margin-top:-2.2mm"><tr><td class="c b" style="border-left:none;border-right:none">BMC Bank Details: Building Maintenance Services North East Ltd, Nat West PLC, Abbey House 282 Farnborough Road Hants GU14 7YU, Sort Code: 60-08-46 Account Number: 67722288</td></tr></table><div class="gap"></div>'+
+  '<div class="row">'+
+   '<div class="col" style="flex:1.1;padding-top:3mm"><table><col><col style="width:17mm"><col style="width:36mm"><col style="width:9mm"><tr><td class="c" colspan="4">Please let us know who will be responsible for payment of invoices. </td></tr><tr><td class="c">Company stated above</td><td class="c">'+ck(S.payer==="Company stated above")+'</td><td class="c">Your clients</td><td class="c">'+ck(S.payer==="Your clients")+'</td></tr></table>'+
+    '<div class="c b" style="margin-top:.8mm">If your clients will be responsible for payment to BMC please provide their company name &amp; company registration number</div>'+
+    '<div class="v c" style="min-height:4mm;margin-top:.5mm">'+(S.payer==="Your clients"?ml("payerDetails"):"")+'</div></div>'+
+   '<div class="col"><table><col><col style="width:18mm"><tr><td class="red">VAT Reverse Charge - mandatory section</td><td class="c b">Yes/No</td></tr><tr><td class="b">Is your company VAT registered?</td><td class="v c">'+v("vatReg")+'</td></tr><tr><td class="b">Is your company CIS registered?</td><td class="v c">'+v("cisReg")+'</td></tr><tr><td class="b" style="height:6.5mm">Are you classed as an “End User” of the services provided by BMC?</td><td class="v c">'+v("endUser")+'</td></tr></table></div>'+
+  '</div>'+
+  '<div style="margin:3mm auto;width:92mm;border:.6pt solid #000;text-align:center;font-weight:bold;font-size:8pt;padding:.5mm">Credit terms: 30 days from date of invoice. </div>'+
+  '<div class="row">'+
+   '<div class="col" style="flex:1.1"><table><col style="width:33mm"><col>'+addrRows("inv","Invoice address (if different from above)")+'</table><div class="gap"></div>'+
+     '<table><col style="width:33mm"><col>'+addrRows("st","Statement address (If different from above)")+'</table><div class="gap"></div>'+
+     '<table><col><col style="width:17mm"><tr><td style="height:8.5mm">As standard all invoices / statements will be e-mailed to your specified invoice\' e-mail address. If you wish for your invoices to be posted please tick here. </td><td class="c">'+ck(S.posted)+'</td></tr></table><div class="gap"></div><div class="gap"></div><div class="gap"></div>'+
+     '<table><col><col style="width:17mm"><tr><td>Have your reactive rates been made clear by our team</td><td class="v c">'+v("ratesClear")+'</td></tr><tr><td>Do you agree to your rates and the terms associated?</td><td class="v c">'+v("ratesAgree")+'</td></tr></table>'+
+   '</div>'+
+   '<div class="col"><table><col style="width:29mm"><col>'+contactRows("ic",{label:"Invoice contact name"})+'</table><div class="gap"></div><div class="gap"></div><div class="gap"></div>'+
+     '<table><col style="width:29mm"><col>'+contactRows("sc",{label:"Statement contact name"})+'</table><div class="gap"></div>'+
+     '<table><col style="width:29mm"><col>'+contactRows("ap",{label:"Accounts Payable Contact"})+'</table><div class="gap"></div>'+
+     '<table><col style="width:29mm"><col>'+contactRows("ec",{label:"Escalation Contact for Payments",cls:"b"})+'</table>'+
+   '</div>'+
+  '</div>'+
+  '<div style="margin:4mm 17mm 0"><table><tr><td class="c">Please include any further invoicing instructions you may have.</td></tr><tr><td class="v multi" style="height:10mm">'+ml("invInstr")+'</td></tr></table></div>'+
+ '</div>';
+
+ var sigImg=S.sig?'<img src="'+S.sig+'" alt="">':"";
+ var p3=''+
+ '<div class="band"></div><div class="bar">4 - Further information</div>'+
+ '<div class="box">'+
+  '<div class="row" style="padding:0 1mm"><div class="col" style="flex:1.1"><table><col><col style="width:17mm"><tr><td class="c" style="height:10mm">Your e-mail address will be added to our database for the purpose of sending you relevant information &amp; standard welcome e-mails, if you are happy to receive these e-mails please tick here</td><td class="c">'+ck(S.marketing)+'</td></tr></table></div>'+
+  '<div class="col"><table><col><col style="width:10mm"><tr><td class="c" style="height:10mm">I understand rates are subject to the approx. job volume specified on this form and that rates may be reviewed 3 months after commencement date specified on this form as a result. </td><td class="c">'+ck(S.ratesReview)+'</td></tr></table></div></div><div class="gap"></div>'+
+  '<div class="sigbar">SIGNED BY CLIENT: I agree to the rates as provided &amp; understand that all transactions are subject to The Building Maintenance Company standard terms and conditions of sale (A copy of which is available upon request). I also agree to provide BMC with a 1 month written notice of termination of their services providing reason for the termination, I also agree to provide them with regular work during their termination period.</div>'+
+  '<table class="sig" style="margin:2mm 0 3mm"><col style="width:10%"><col style="width:6%"><col style="width:30%"><col style="width:12%"><col style="width:6%"><col style="width:30%"><col><tr><td class="c b" colspan="2" style="height:10mm">Signed</td><td class="ln v" style="height:10mm">'+sigImg+'</td><td class="c b" colspan="2">Name</td><td class="ln v">'+v("sigName")+'</td><td></td></tr><tr><td class="c b" colspan="2">Date</td><td class="ln v">'+dt("sigDate")+'</td><td class="c b" colspan="2">Position</td><td class="ln v">'+v("sigPos")+'</td><td></td></tr></table>'+
+  '<div class="sigbar">SIGNED BY BMC REPRESENTATIVE: The Building Maintenance Company agree to adhere to the guidelines specified by the client on this form providing the best service possible. We agree to provide the client with a 1 month written notice if our services can no longer be provided to them. We agree to attend works given to us by the client in that notice period where attendance and completion is possible. </div>'+
+  '<table class="sig" style="margin:2mm 0 3mm"><col style="width:10%"><col style="width:6%"><col style="width:30%"><col style="width:12%"><col style="width:6%"><col style="width:30%"><col><tr><td class="c b" colspan="2" style="height:10mm">Signed</td><td class="ln"></td><td class="c b" colspan="2">Name</td><td class="ln"></td><td></td></tr><tr><td class="c b" colspan="2">Date</td><td class="ln"></td><td class="c b" colspan="2">Position</td><td class="ln"></td><td></td></tr></table>'+
+  '<div class="c small" style="padding:0 1mm">Please check &amp; confirm that the details on this form are correct, &amp; please provide any further details as necessary.  Can you then sign &amp; return this form, together with a Company Letterhead, to The Building Maintenance Company, prior to issuing your first job and we will open an account for you. You will also be sent a countersigned PDF copy of this document Thank you once again for your business and your trust.</div>'+
+  '<div class="ver" style="margin-top:1.5mm">version 8 - 03.09.25</div>'+
+ '</div>'+
+ '<div style="margin:5mm 0 0 61mm;width:80mm" class="small"><div style="margin-bottom:1.5mm">For BMC Use only:</div><table><col style="width:17mm"><col style="width:12mm"><col style="width:13mm"><col style="width:12mm"><col style="width:12mm"><col>'+
+  STAFF.map(function(n){return '<tr><td>'+esc(n)+'</td><td></td><td style="border:none"></td><td>Date:</td><td></td><td style="border:none"></td></tr>';}).join("")+'</table></div>';
+
+ var rows=S.kpis.filter(function(r){return r&&(r.name||r.desc||r.target||r.info);});
+ while(rows.length<12)rows.push({});
+ var p4=''+
+ header("Customer KPI &amp; SLA Requirements")+
+ '<div class="c" style="margin:5mm 12mm 6mm;font-size:8pt">We understand certain customers will have KPI &amp; SLA requirements for their contractors. As always we endevour to hit these targets but in the spirit of the partnership agreement we ask for every opportunity for this to be made possible by working together and maintainting an open communication. </div>'+
+ '<table class="kpi-t" style="font-size:7.6pt"><col style="width:22%"><col style="width:30%"><col style="width:16%"><col><tr><td class="hd">KPI / SLA Name</td><td class="hd">Description</td><td class="hd">Target</td><td class="hd">Further information / Instructions/ Penalties</td></tr>'+
+ rows.map(function(r){return '<tr><td class="v">'+esc(r.name)+'</td><td class="v">'+esc(r.desc)+'</td><td class="v">'+esc(r.target)+'</td><td class="v">'+esc(r.info)+'</td></tr>';}).join("")+'</table>';
+
+ return '<div class="sheet"><div class="pf">'+p1+'</div></div><div class="sheet"><div class="pf">'+p2+'</div></div><div class="sheet"><div class="pf">'+p3+'</div></div><div class="sheet"><div class="pf">'+p4+'</div></div>';
+}
+
+/* ---------------- boot ---------------- */
+renderKpis();setInputs();renderPrint();
+var startStep=0;try{startStep=+(localStorage.getItem(STORE+"-step")||0);}catch(e){}
+go(startStep||0);
+})();
+</script>
+</body>
+</html>
