@@ -11,17 +11,17 @@ window.BMC_CONFIG = {
      Edit the figures here when rates change – nothing else needs touching. */
   rates: {
     title: "Premier Reactive Non-Tiered inc. 1st Hr Rates",
-    effective: "01/04/2025",
+    effective: "01/10/2026",
     columns: ["Mon – Fri, 8am – 5pm", "5pm – 8am, weekends & public holidays"],
     groups: [
       { name: "General Trades", rows: [
-        ["Arrival fee – inclusive of call-out, travel & 1st hour on site", "£105.00", "£150.00"],
-        ["Hourly rate",                                                  "£43.50",  "£60.00"],
+        ["Arrival fee – inclusive of call-out, travel & 1st hour on site", "£110.00", "£170.00"],
+        ["Hourly rate",                                                  "£46.00",  "£65.00"],
         ["Day rate – 8 hrs labour only",                                 "£375.00", "N/A"]
       ]},
       { name: "Electricians", rows: [
-        ["Arrival fee – inclusive of call-out, travel & 1st hour on site", "£120.00", "£170.00"],
-        ["Hourly rate",                                                  "£50.00",  "£70.00"],
+        ["Arrival fee – inclusive of call-out, travel & 1st hour on site", "£125.00", "£185.00"],
+        ["Hourly rate",                                                  "£55.00",  "£75.00"],
         ["Day rate – 8 hrs labour only",                                 "£425.00", "N/A"]
       ]}
     ],

@@ -58,6 +58,60 @@ function addSignature(zip,dataUrl){
   });
 }
 
+/* Draw the reactive rate sheet (from assets/js/config.js) as a picture for the
+   workbook's "Reactive Rates" tab, so the Excel file always shows the current rates. */
+function loadImg(src){return new Promise(function(res){var i=new Image();i.onload=function(){res(i);};i.onerror=function(){res(null);};i.src=src;});}
+function wrap(ctx,text,maxW){var words=String(text).split(" "),lines=[],line="";
+  words.forEach(function(w){var t=line?line+" "+w:w;if(ctx.measureText(t).width>maxW&&line){lines.push(line);line=w;}else line=t;});if(line)lines.push(line);return lines;}
+function drawRateSheet(){
+  var R=window.BMC_CONFIG&&window.BMC_CONFIG.rates;if(!R)return Promise.resolve(null);
+  var srcs=["assets/img/bmc-logo.png"];for(var b=1;b<=6;b++)srcs.push("assets/img/badge-"+b+".jpg");
+  return Promise.all(srcs.map(loadImg)).then(function(imgs){
+    var W=1182,H=1704,c=document.createElement("canvas");c.width=W;c.height=H;
+    var x=c.getContext("2d"),RED="#99181c",INK="#1d1d1d",F='"Public Sans", Arial, sans-serif';
+    x.fillStyle="#fff";x.fillRect(0,0,W,H);
+    // header
+    if(imgs[0])x.drawImage(imgs[0],W-235,34,180,175);
+    x.fillStyle=INK;x.textBaseline="alphabetic";x.font="400 40px "+F;x.fillText("THE BUILDING MAINTENANCE COMPANY",70,120);
+    x.font="400 22px "+F;var tag=["INTEGRITY","SERVICE EXCELLENCE","DELIVERY"],tx=150;
+    function dot(cx,cy,r){x.fillStyle=RED;x.beginPath();x.arc(cx,cy,r,0,Math.PI*2);x.fill();}
+    tag.forEach(function(t){dot(tx-18,170,7);x.fillStyle=INK;x.fillText(t,tx,178);tx+=x.measureText(t).width+44;});dot(tx-18,170,7);
+    // title
+    x.font="700 38px "+F;x.textAlign="center";var tw=x.measureText(R.title).width;
+    x.fillStyle=INK;x.fillText(R.title,W/2,290);dot(W/2-tw/2-26,278,8);dot(W/2+tw/2+26,278,8);
+    x.fillStyle=INK;x.font="400 24px "+F;x.fillText("Effective from "+R.effective,W/2,336);
+    x.strokeStyle=RED;x.lineWidth=3;x.beginPath();x.moveTo(70,370);x.lineTo(W-70,370);x.stroke();
+    // tables
+    var L=70,colW=[400,(W-140-400)/2,(W-140-400)/2],y=420;
+    R.groups.forEach(function(g){
+      x.textAlign="left";x.fillStyle=RED;x.font="700 27px "+F;x.fillText(g.name,L,y+44);
+      x.fillStyle=INK;x.font="400 19px "+F;x.textAlign="center";
+      R.columns.forEach(function(col,i){var cx=L+colW[0]+colW[1]*i+colW[1]/2;wrap(x,col,colW[1]-30).forEach(function(ln,k){x.fillText(ln,cx,y+20+k*24);});});
+      y+=74;
+      g.rows.forEach(function(r){
+        var rowH=70;x.strokeStyle="#333";x.lineWidth=1.5;
+        x.strokeRect(L,y,colW[0],rowH);x.strokeRect(L+colW[0],y,colW[1],rowH);x.strokeRect(L+colW[0]+colW[1],y,colW[2],rowH);
+        x.textAlign="left";x.fillStyle=INK;x.font="400 21px "+F;
+        var ls=wrap(x,r[0],colW[0]-28);ls.forEach(function(ln,k){x.fillText(ln,L+14,y+rowH/2+8-(ls.length-1)*13+k*26);});
+        x.textAlign="center";x.font="700 24px "+F;
+        r.slice(1).forEach(function(v,i){x.fillText(v,L+colW[0]+colW[1]*i+colW[1]/2,y+rowH/2+9);});
+        y+=rowH;});
+      y+=34;});
+    // uplifts
+    x.font="600 22px "+F;x.textAlign="left";var ux=L+20,ug=(W-140)/R.uplifts.length;
+    R.uplifts.forEach(function(u,i){var px=L+ug*i+24;dot(px-14,y+2,7);x.fillStyle=INK;x.fillText(u,px,y+10);});
+    y+=60;
+    // terms
+    x.fillStyle=INK;x.font="700 24px "+F;x.fillText("Terms & Conditions",L,y);y+=34;x.font="400 18px "+F;
+    R.terms.forEach(function(t,i){var ls=wrap(x,t,W-140-40);x.fillText((i+1)+".",L+4,y);ls.forEach(function(ln,k){x.fillText(ln,L+36,y+k*24);});y+=ls.length*24+10;});
+    // accreditation badges
+    var bs=imgs.slice(1).filter(Boolean),size=110,gap=(W-140-bs.length*size)/Math.max(1,bs.length-1),by=H-160;
+    x.strokeStyle=RED;x.lineWidth=3;x.beginPath();x.moveTo(70,by-30);x.lineTo(W-70,by-30);x.stroke();
+    bs.forEach(function(im,i){x.drawImage(im,L+i*(size+gap),by,size,size);});
+    return new Promise(function(res){c.toBlob(function(bl){if(!bl)return res(null);bl.arrayBuffer().then(function(ab){res(new Uint8Array(ab));});},"image/png");});
+  }).catch(function(){return null;});
+}
+
 window.BMCExcel={
   build:function(S){
     var M=window.BMC_CELLS,zip;
@@ -85,7 +139,10 @@ window.BMCExcel={
       (S.kpis||[]).filter(function(r){return r&&(r.name||r.desc||r.target||r.info);}).slice(0,M.KPI.length).forEach(function(r,i){
         var c=M.KPI[i];s4.set(c.name,r.name||"");s4.set(c.desc,r.desc||"");s4.set(c.target,r.target||"");s4.set(c.info,r.info||"");});
       zip.file("xl/worksheets/sheet1.xml",s1.xml());zip.file("xl/worksheets/sheet4.xml",s4.xml());
-      return S.sig?addSignature(zip,S.sig):null;
+      return drawRateSheet().then(function(png){
+        if(png)zip.file("xl/media/image2.png",png);          // "Reactive Rates" tab picture
+        return S.sig?addSignature(zip,S.sig):null;
+      });
     }).then(function(){
       return zip.generateAsync({type:"blob",compression:"DEFLATE",mimeType:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
     });
