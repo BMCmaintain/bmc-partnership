@@ -110,6 +110,24 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--focus);b
 /* KPI rows */
 .kpi{border:1px solid var(--line);border-radius:8px;padding:12px;display:grid;gap:10px;grid-template-columns:repeat(2,minmax(0,1fr));position:relative;margin-bottom:10px;background:#fcfafa}
 .kpi .rm{position:absolute;top:8px;right:10px}
+/* rate card */
+.rates{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff}
+.rates-head{background:var(--navy);color:#fff;padding:14px 16px}
+.rates-title{font-weight:800;font-size:16.5px;line-height:1.3;text-wrap:balance}
+.rates-eff{font-size:13px;opacity:.85;margin-top:2px}
+.rates-scroll{overflow-x:auto;padding:0 16px}
+.rtable{width:100%;border-collapse:collapse;margin:14px 0 4px;font-variant-numeric:tabular-nums;min-width:440px}
+.rtable caption{text-align:left;font-weight:700;color:var(--navy-deep);padding-bottom:6px;font-size:14.5px}
+.rtable th,.rtable td{border-bottom:1px solid var(--line);padding:9px 10px;font-size:14px;vertical-align:middle}
+.rtable thead th{font-size:12px;font-weight:600;color:var(--muted);text-align:right;line-height:1.3;border-bottom:2px solid var(--line-strong);width:28%}
+.rtable tbody th{text-align:left;font-weight:500;color:var(--ink)}
+.rtable td{text-align:right;font-weight:700;color:var(--ink);white-space:nowrap}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.uplifts{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin:12px 16px 4px;padding:0}
+.uplifts li{background:#f9ebeb;color:var(--navy-deep);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:600}
+.rterms{margin:10px 16px 14px;font-size:13.5px;color:var(--muted)}
+.rterms summary{cursor:pointer;font-weight:600;color:var(--navy);padding:4px 0}
+.rterms ol{margin:6px 0 0;padding-left:20px;display:grid;gap:5px;max-width:75ch}
 
 /* signature */
 .sigbox{border:1px solid var(--line-strong);border-radius:8px;background:#fff;position:relative;touch-action:none}
@@ -150,6 +168,13 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--focus);b
 input[type=file]{min-height:auto;padding:8px;background:#fff;border:1px dashed var(--line-strong);border-radius:7px;width:100%}
 
 @media (max-width:640px){
+  .rates-scroll{padding:0 14px}
+  .rtable{min-width:0}
+  .rtable thead{display:none}
+  .rtable tbody tr{display:block;padding:10px 0;border-bottom:1px solid var(--line)}
+  .rtable tbody th{display:block;border:0;padding:0 0 6px}
+  .rtable td{display:flex;justify-content:space-between;gap:12px;border:0;padding:2px 0;white-space:normal}
+  .rtable td::before{content:attr(data-label);font-weight:400;color:var(--muted);font-size:13px;text-align:left}
   .grid,.grid.three,.kpi{grid-template-columns:minmax(0,1fr)}
   .top h1{font-size:19px}
   .top .save{display:none}
@@ -341,6 +366,20 @@ function addrBlock(p,title,o){o=o||{};
   '<div class="grid">'+T(p+"1","Address line 1",{full:true})+T(p+"2","Address line 2",{full:true})+T(p+"3","Town / city")+T(p+"4","County")+T(p+"Post","Post code")+'</div></fieldset>';}
 function copyBtn(target,src,label){return '<button type="button" class="linkbtn" data-copy="'+target+'" data-src="'+src+'">'+label+'</button>';}
 
+/* ---------------- reactive rate card (prices live in assets/js/config.js) ---------------- */
+function rateCard(){
+  var R=(window.BMC_CONFIG&&window.BMC_CONFIG.rates)||null;if(!R)return "";
+  var h='<div class="rates"><div class="rates-head"><div><div class="rates-title">'+esc(R.title)+'</div><div class="rates-eff">Effective from '+esc(R.effective)+'</div></div></div>';
+  R.groups.forEach(function(g){
+    h+='<div class="rates-scroll"><table class="rtable"><caption>'+esc(g.name)+'</caption><thead><tr><th scope="col"><span class="sr">Charge</span></th>'+
+      R.columns.map(function(c){return '<th scope="col">'+esc(c)+'</th>';}).join("")+'</tr></thead><tbody>'+
+      g.rows.map(function(r){return '<tr><th scope="row">'+esc(r[0])+'</th>'+r.slice(1).map(function(v,i){return '<td data-label="'+esc(R.columns[i])+'">'+esc(v)+'</td>';}).join("")+'</tr>';}).join("")+
+      '</tbody></table></div>';});
+  h+='<ul class="uplifts">'+R.uplifts.map(function(u){return '<li>'+esc(u)+'</li>';}).join("")+'</ul>';
+  h+='<details class="rterms"><summary>Rates terms &amp; conditions</summary><ol>'+R.terms.map(function(x){return '<li>'+esc(x)+'</li>';}).join("")+'</ol></details></div>';
+  return h;
+}
+
 /* ---------------- steps ---------------- */
 var STEPS=[
  {id:"client",short:"Client details",tag:"Section 1",title:"Client details",lead:"Please include as much detail as possible. This helps us understand and deliver on your expectations. Contact our sales team with any questions.",
@@ -411,9 +450,10 @@ var STEPS=[
    contactBlock("sc","Statement contact",{copy:copyBtn("sc","ic","Same as invoice contact")})+
    contactBlock("ap","Accounts payable contact",{copy:copyBtn("ap","ic","Same as invoice contact")})+
    contactBlock("ec","Escalation contact for payments",{copy:copyBtn("ec","mc","Same as main contact")})+
-   '<fieldset><legend>Invoice delivery and rates</legend>'+TICK("posted","As standard, all invoices and statements are e-mailed to your invoice e-mail address. Tick here if you’d like invoices posted instead.")+
-     '<div class="grid" style="margin-top:14px">'+YN("ratesClear","Have your reactive rates been made clear by our team?")+YN("ratesAgree","Do you agree to your rates and the associated terms?")+
-     A("invInstr","Any further invoicing instructions",{rows:3})+'</div>'+
+   '<fieldset><legend>Your reactive rates</legend>'+rateCard()+
+     '<div class="grid" style="margin-top:16px">'+YN("ratesClear","Have your reactive rates been made clear by our team?")+YN("ratesAgree","Do you agree to your rates and the associated terms?")+'</div></fieldset>'+
+   '<fieldset><legend>Invoice delivery</legend>'+TICK("posted","As standard, all invoices and statements are e-mailed to your invoice e-mail address. Tick here if you’d like invoices posted instead.")+
+     '<div class="grid" style="margin-top:14px">'+A("invInstr","Any further invoicing instructions",{rows:3})+'</div>'+
      '<div class="hint" style="margin:12px 0 0">BMC bank details: Building Maintenance Services North East Ltd, NatWest PLC, Abbey House, 282 Farnborough Road, Hants GU14 7YU · Sort code 60-08-46 · Account 67722288</div></fieldset>';}},
  {id:"kpi",short:"KPIs & SLAs",tag:"KPI / SLA",title:"KPI and SLA requirements",lead:"If you set KPIs or SLAs for your contractors, list them here. We always aim to hit these targets, and in the spirit of partnership we ask for every opportunity to do so through working together and open communication. Leave blank if none apply.",
   html:function(){return '<div id="kpiList"></div><button type="button" class="btn" id="addKpi">Add another KPI / SLA</button><div class="hint" style="margin-top:10px">Up to 7 KPIs / SLAs fit on the agreement.</div>';}},
@@ -535,7 +575,7 @@ function summaryText(){
   a("Main contact","mcName");a("Job title","mcTitle");a("E-mail","mcEmail");a("Office","mcOffice");a("Mobile","mcMobile");L.push("");
   a("Agreement start","startDate");a("Rates valid until","ratesUntil");a("Approx. sites","sites");a("Approx. jobs per month","volume");
   a("Budget per reactive job","budget");a("VAT registered","vatReg");a("CIS registered","cisReg");a("End user","endUser");
-  a("Rates made clear","ratesClear");a("Agrees to rates","ratesAgree");L.push("");
+  if(window.BMC_CONFIG&&window.BMC_CONFIG.rates)L.push("Rate card: "+window.BMC_CONFIG.rates.title+" (effective "+window.BMC_CONFIG.rates.effective+")");a("Rates made clear","ratesClear");a("Agrees to rates","ratesAgree");L.push("");
   a("Signed by","sigName");a("Position","sigPos");a("Date","sigDate");
   L.push("");L.push("Full details are in the attached Excel agreement.");
   return L.filter(function(x,i,arr){return !(x===""&&arr[i-1]==="");}).join("\n");
