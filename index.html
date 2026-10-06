@@ -451,7 +451,7 @@ var STEPS=[
    contactBlock("ap","Accounts payable contact",{copy:copyBtn("ap","ic","Same as invoice contact")})+
    contactBlock("ec","Escalation contact for payments",{copy:copyBtn("ec","mc","Same as main contact")})+
    '<fieldset><legend>Your reactive rates</legend>'+rateCard()+
-     '<div class="grid" style="margin-top:16px">'+YN("ratesClear","Have your reactive rates been made clear by our team?")+YN("ratesAgree","Do you agree to your rates and the associated terms?")+'</div></fieldset>'+
+     '<div class="grid" style="margin-top:16px">'+YN("ratesClear","Have your reactive rates been made clear by our team?",{opts:["Yes","No","N/A"]})+YN("ratesAgree","Do you agree to your rates and the associated terms?",{opts:["Yes","No","N/A"]})+'</div></fieldset>'+
    '<fieldset><legend>Invoice delivery</legend>'+TICK("posted","As standard, all invoices and statements are e-mailed to your invoice e-mail address. Tick here if you’d like invoices posted instead.")+
      '<div class="grid" style="margin-top:14px">'+A("invInstr","Any further invoicing instructions",{rows:3})+'</div>'+
      '<div class="hint" style="margin:12px 0 0">BMC bank details: Building Maintenance Services North East Ltd, NatWest PLC, Abbey House, 282 Farnborough Road, Hants GU14 7YU · Sort code 60-08-46 · Account 67722288</div></fieldset>';}},
