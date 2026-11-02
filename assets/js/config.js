@@ -199,6 +199,7 @@ function installExcelHook(){
     }
 
     var pref=getPref(),choice=pref==="optout"?"☐ OPT IN     ☒ OPT OUT":"☒ OPT IN     ☐ OPT OUT";
+    setText(doc,findCell(doc,"H162","H162"),pref==="optout"?"☐":"☒");
     setText(doc,findCell(doc,"D"+start,"D160"),"MARKETING COMMUNICATIONS PERMISSION");
     setText(doc,findCell(doc,"H"+(start+2),"H162"),choice);
     setText(doc,findCell(doc,"D"+(start+3),"D163"),"The Building and Maintenance Company may retain relevant business contact details provided through our working relationship and use them to send occasional emails about its services, maintenance support and other relevant business information.");
