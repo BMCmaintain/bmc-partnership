@@ -1,0 +1,80 @@
+{
+  "appName": "BMC Tender Watch",
+  "company": "The Building and Maintenance Company",
+  "minimumScore": 45,
+  "minimumValue": 0,
+  "daysAhead": 120,
+  "regions": ["UK", "England", "North East", "Scotland", "Wales", "Northern Ireland"],
+  "includeKeywords": [
+    "reactive maintenance", "property maintenance", "building maintenance", "facilities maintenance",
+    "building fabric", "multi trade", "multi-trade", "planned maintenance", "PPM", "minor works",
+    "electrical", "plumbing", "heating", "joinery", "carpentry", "roofing", "flooring", "glazing",
+    "decorating", "plastering", "brickwork", "general building", "gutter", "grounds maintenance",
+    "external works", "emergency repairs", "24/7", "out of hours", "compliance", "PAT testing",
+    "fixed wire", "emergency lighting", "fire extinguisher", "water treatment", "boiler servicing"
+  ],
+  "priorityKeywords": [
+    "reactive maintenance", "multi trade", "multi-trade", "building fabric", "property maintenance",
+    "24/7", "out of hours", "minor works", "planned maintenance"
+  ],
+  "excludeKeywords": [
+    "residential development", "new build housing", "major civils", "highways construction", "software",
+    "IT services", "medical equipment", "pharmaceutical", "consultancy only", "design only"
+  ],
+  "buyerBoostKeywords": ["council", "NHS", "university", "college", "estate", "facilities", "property"],
+  "sources": [
+    {
+      "id": "contracts-finder",
+      "name": "Contracts Finder",
+      "type": "contracts-finder",
+      "enabled": true,
+      "url": "https://www.contractsfinder.service.gov.uk/Published/Notices/OCDS/Search"
+    },
+    {
+      "id": "find-a-tender",
+      "name": "Find a Tender",
+      "type": "find-a-tender",
+      "enabled": true,
+      "url": "https://www.find-tender.service.gov.uk/api/1.0/ocdsReleasePackages"
+    },
+    {
+      "id": "public-contracts-scotland",
+      "name": "Public Contracts Scotland",
+      "type": "pcs",
+      "enabled": true,
+      "url": "https://api.publiccontractsscotland.gov.uk/v1/Notices"
+    },
+    {
+      "id": "sell2wales",
+      "name": "Sell2Wales",
+      "type": "generic-feed",
+      "enabled": false,
+      "url": "",
+      "note": "Enable when the preferred OCDS/RSS feed URL is entered."
+    },
+    {
+      "id": "nepo-open",
+      "name": "NEPO Open",
+      "type": "generic-page",
+      "enabled": false,
+      "url": "https://www.nepo.org/open",
+      "note": "Registration may be required for full opportunity access."
+    },
+    {
+      "id": "in-tend",
+      "name": "In-tend / Sell2UK",
+      "type": "authorised-feed",
+      "enabled": false,
+      "url": "",
+      "note": "In-tend requires authorised feed/API access for tender-feed use."
+    },
+    {
+      "id": "atamis",
+      "name": "Atamis portals",
+      "type": "generic-feed",
+      "enabled": false,
+      "url": "",
+      "note": "Add public opportunity/CSV feed URLs for specific buying organisations."
+    }
+  ]
+}
