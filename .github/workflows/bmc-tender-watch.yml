@@ -1,0 +1,37 @@
+name: BMC Tender Watch
+
+on:
+  schedule:
+    - cron: '0 7 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run BMC tender scan
+        working-directory: tender-watch
+        run: npm run scan
+
+      - name: Save refreshed tender data
+        run: |
+          git config user.name "BMC Tender Watch"
+          git config user.email "actions@users.noreply.github.com"
+          git add tender-watch/data/tenders.json
+          if git diff --cached --quiet; then
+            echo "No tender data changes to commit."
+          else
+            git commit -m "Daily BMC tender scan"
+            git push
+          fi
